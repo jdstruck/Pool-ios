@@ -13,6 +13,15 @@ class GameScene: SKScene {
     
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
+    // Screen width.
+    public var screenWidth: CGFloat {
+        return UIScreen.main.bounds.width
+    }
+
+    // Screen height.
+    public var screenHeight: CGFloat {
+        return UIScreen.main.bounds.height
+    }
     
     
     override func didMove(to view: SKView) {
@@ -37,41 +46,82 @@ class GameScene: SKScene {
                                               SKAction.removeFromParent()]))
         }
     }
-    
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
+    func createShape() {
+        
+        let startx = CGFloat.random(in: -(screenWidth)/2 ..< (screenWidth/2)-50 )
+        let starty = CGFloat.random(in: -(screenHeight)/2 ..< (screenHeight/2))
+        let sizeFactor = Int.random(in: 1 ... 4)
+        let numPoints = Int.random(in: 8 ... 12)
+        let startPoint = CGPoint(x: 0, y: 0)
+        
+        var points: [CGPoint] = []
+        
+        for index in 0 ..< numPoints {
+            let x: Int;
+            let y: Int;
+            
+            switch(index) {
+            case 1 ..< numPoints/4:
+                x = Int.random(in: 50 ... 150)
+                y = Int.random(in: 50 ... 150)
+            case numPoints/4 ..< numPoints/2:
+                x = Int.random(in: 50 ... 150)
+                y = Int.random(in: -50 ... 50)
+            case numPoints/2 ..< 3*numPoints/4:
+                x = Int.random(in: 0 ... 50)
+                y = Int.random(in: -150 ... 0)
+            case numPoints/2 ..< 3*numPoints/4:
+                x = Int.random(in: 50 ... 150)
+                y = Int.random(in: 50 ... 150)
+            default: x = 0; y = 0
+            }
+            points.append(CGPoint(x: x, y: y))
         }
-        var points = [CGPoint(x: 0, y: 0),
-                      CGPoint(x: 100, y: 100),
-                      CGPoint(x: 200, y: -50),
-                      CGPoint(x: 100, y: 30),
-                      CGPoint(x: 0, y: 0)]
-        let linearShapeNode = SKShapeNode(points: &points,
-                                          count: points.count)
-        linearShapeNode.position = pos;
+        
+        let linearShapeNode = SKShapeNode(points: &points, count: points.count)
+        linearShapeNode.physicsBody = SKPhysicsBody(edgeChainFrom: linearShapeNode.path!)
+        linearShapeNode.physicsBody?.restitution = 0.75
+        linearShapeNode.physicsBody?.collisionBitMask = 0b0001
+        linearShapeNode.physicsBody?.categoryBitMask = 0b0001
+        
+        linearShapeNode.position = CGPoint(x: startx, y: starty);
+
         //let splineShapeNode = SKShapeNode(splinePoints: &points,
         //                                  count: points.count)
-        
+        //if let angle
+        linearShapeNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.random(in: -2 ... 2), duration: TimeInterval.random(in: 1 ... 2))))
+
         self.addChild(linearShapeNode);
+        print(startx, starty);
+        
+    }
+    
+    func touchDown(atPoint pos : CGPoint) {
+//        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
+//            n.position = pos
+//            n.strokeColor = SKColor.green
+//            self.addChild(n)
+//        }
+        createShape()
+        
+        //print(screenWidth, screenHeight)
+        
     }
     
     func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
+//        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
+//            n.position = pos
+//            n.strokeColor = SKColor.blue
+//            self.addChild(n)
+//        }
     }
     
     func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
+//        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
+//            n.position = pos
+//            n.strokeColor = SKColor.red
+//            self.addChild(n)
+//        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
