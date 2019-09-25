@@ -46,7 +46,7 @@ class GameScene: SKScene {
                                               SKAction.removeFromParent()]))
         }
     }
-    func createShape() {
+    func createShape(atPoint pos : CGPoint) {
         
         let startx = CGFloat.random(in: -(screenWidth)/2 ..< (screenWidth/2)-50 )
         let starty = CGFloat.random(in: -(screenHeight)/2 ..< (screenHeight/2))
@@ -72,7 +72,7 @@ class GameScene: SKScene {
         }
         
         let linearShapeNode = SKShapeNode(points: &points, count: points.count)
-        linearShapeNode.position = CGPoint(x: startx, y: starty);
+        linearShapeNode.position = pos //CGPoint(x: startx, y: starty);
         
         linearShapeNode.physicsBody = SKPhysicsBody(edgeChainFrom: linearShapeNode.path!)
         linearShapeNode.physicsBody?.mass = 100
@@ -93,7 +93,7 @@ class GameScene: SKScene {
 //            n.strokeColor = SKColor.green
 //            self.addChild(n)
 //        }
-        createShape()
+        createShape(atPoint: pos)
         
         //print(screenWidth, screenHeight)
         
