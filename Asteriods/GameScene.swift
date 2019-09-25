@@ -51,48 +51,39 @@ class GameScene: SKScene {
         let startx = CGFloat.random(in: -(screenWidth)/2 ..< (screenWidth/2)-50 )
         let starty = CGFloat.random(in: -(screenHeight)/2 ..< (screenHeight/2))
         let sizeFactor = Int.random(in: 1 ... 4)
-        let numPoints = Int.random(in: 8 ... 12)
-        let startPoint = CGPoint(x: 0, y: 0)
-        
+        let numPoints = Int.random(in: 8 ... 20)
+        let edgeAngle: Double = Double(360 / numPoints)
+                
         var points: [CGPoint] = []
         
         for index in 0 ..< numPoints {
-            let x: Int;
-            let y: Int;
+            let x: Double
+            let y: Double
+            let edgeLength = Double.random(in: 10 ... 30) * Double(sizeFactor)
             
             switch(index) {
-            case 1 ..< numPoints/4:
-                x = Int.random(in: 50 ... 150)
-                y = Int.random(in: 50 ... 150)
-            case numPoints/4 ..< numPoints/2:
-                x = Int.random(in: 50 ... 150)
-                y = Int.random(in: -50 ... 50)
-            case numPoints/2 ..< 3*numPoints/4:
-                x = Int.random(in: 0 ... 50)
-                y = Int.random(in: -150 ... 0)
-            case numPoints/2 ..< 3*numPoints/4:
-                x = Int.random(in: 50 ... 150)
-                y = Int.random(in: 50 ... 150)
+            case 1 ... numPoints - 2:
+                x = edgeLength * cos(2 * Double.pi * Double(index)/Double(numPoints))
+                y = edgeLength * sin(2 * Double.pi * Double(index)/Double(numPoints))
+                print(sizeFactor, numPoints, edgeLength, String(edgeAngle) + "\n" + String(x), y)
             default: x = 0; y = 0
             }
             points.append(CGPoint(x: x, y: y))
         }
         
         let linearShapeNode = SKShapeNode(points: &points, count: points.count)
+        linearShapeNode.position = CGPoint(x: startx, y: starty);
+        
         linearShapeNode.physicsBody = SKPhysicsBody(edgeChainFrom: linearShapeNode.path!)
+        linearShapeNode.physicsBody?.mass = 100
         linearShapeNode.physicsBody?.restitution = 0.75
         linearShapeNode.physicsBody?.collisionBitMask = 0b0001
         linearShapeNode.physicsBody?.categoryBitMask = 0b0001
         
-        linearShapeNode.position = CGPoint(x: startx, y: starty);
-
-        //let splineShapeNode = SKShapeNode(splinePoints: &points,
-        //                                  count: points.count)
-        //if let angle
         linearShapeNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.random(in: -2 ... 2), duration: TimeInterval.random(in: 1 ... 2))))
-
+        linearShapeNode.run(SKAction.repeatForever(SKAction.moveBy(x: CGFloat.random(in: -100 ... 100), y: CGFloat.random(in: -100 ... 100), duration: TimeInterval.random(in: 1 ... 3))))
         self.addChild(linearShapeNode);
-        print(startx, starty);
+        //print(startx, starty);
         
     }
     
