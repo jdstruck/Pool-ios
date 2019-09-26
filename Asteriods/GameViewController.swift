@@ -49,13 +49,4 @@ class GameViewController: UIViewController {
     }
     
     //MARK: Actions
-    @IBAction func Obj1(_ sender: UIButton) {
-        var scene = GameScene()
-        scene.createShape();
-    }
-    
-    @IBAction func Obj2(_ sender: UIButton) {
-        var scene = GameScene()
-        scene.createShape();
-    }
 }
