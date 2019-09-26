@@ -17,6 +17,7 @@
 		211BF714233A8078007A4A77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 211BF712233A8078007A4A77 /* LaunchScreen.storyboard */; };
 		211BF71F233A8079007A4A77 /* AsteriodsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211BF71E233A8079007A4A77 /* AsteriodsTests.swift */; };
 		211BF72A233A8079007A4A77 /* AsteriodsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211BF729233A8079007A4A77 /* AsteriodsUITests.swift */; };
+		21612056233C62C20075F96B /* Asteroid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21612055233C62C20075F96B /* Asteroid.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		211BF725233A8079007A4A77 /* AsteroidsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AsteroidsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		211BF729233A8079007A4A77 /* AsteriodsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsteriodsUITests.swift; sourceTree = "<group>"; };
 		211BF72B233A8079007A4A77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		21612055233C62C20075F96B /* Asteroid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asteroid.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				211BF710233A8078007A4A77 /* Assets.xcassets */,
 				211BF712233A8078007A4A77 /* LaunchScreen.storyboard */,
 				211BF715233A8078007A4A77 /* Info.plist */,
+				21612055233C62C20075F96B /* Asteroid.swift */,
 			);
 			path = Asteriods;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21612056233C62C20075F96B /* Asteroid.swift in Sources */,
 				211BF70A233A8078007A4A77 /* GameScene.swift in Sources */,
 				211BF70C233A8078007A4A77 /* GameViewController.swift in Sources */,
 				211BF704233A8078007A4A77 /* AppDelegate.swift in Sources */,

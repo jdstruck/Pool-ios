@@ -9,6 +9,7 @@
 import SpriteKit
 import GameplayKit
 
+
 class GameScene: SKScene {
     
     private var label : SKLabelNode?
@@ -33,6 +34,10 @@ class GameScene: SKScene {
 //            label.run(SKAction.fadeIn(withDuration: 2.0))
 //        }
         
+       
+        physicsWorld.gravity = CGVector(dx: 0, dy: 0);
+        
+        
         // Create shape node to use during mouse interaction
         let w = (self.size.width + self.size.height) * 0.05
         self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w*0)
@@ -46,7 +51,7 @@ class GameScene: SKScene {
                                               SKAction.removeFromParent()]))
         }
     }
-    func createShape(atPoint pos : CGPoint) {
+    func createShape() { //(atPoint pos : CGPoint) {
         
         let startx = CGFloat.random(in: -(screenWidth)/2 ..< (screenWidth/2)-50 )
         let starty = CGFloat.random(in: -(screenHeight)/2 ..< (screenHeight/2))
@@ -72,7 +77,7 @@ class GameScene: SKScene {
         }
         
         let linearShapeNode = SKShapeNode(points: &points, count: points.count)
-        linearShapeNode.position = pos //CGPoint(x: startx, y: starty);
+        linearShapeNode.position = CGPoint(x: startx, y: starty); //pos
         
         linearShapeNode.physicsBody = SKPhysicsBody(edgeChainFrom: linearShapeNode.path!)
         linearShapeNode.physicsBody?.mass = 100
@@ -93,7 +98,7 @@ class GameScene: SKScene {
 //            n.strokeColor = SKColor.green
 //            self.addChild(n)
 //        }
-        createShape(atPoint: pos)
+        createShape()
         
         //print(screenWidth, screenHeight)
         
