@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
@@ -23,9 +23,12 @@ class GameScene: SKScene {
         return UIScreen.main.bounds.height
     }
     
+    func didBegin(_ contact: SKPhysicsContact) {
+        print("contact")
+    }
     
     override func didMove(to view: SKView) {
-        
+        physicsWorld.contactDelegate = self
         // Get label node from scene and store it for use later
 //        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
 //        if let label = self.label {
@@ -65,7 +68,7 @@ class GameScene: SKScene {
             case 1 ... numPoints - 2:
                 x = edgeLength * cos(2 * Double.pi * Double(index)/Double(numPoints))
                 y = edgeLength * sin(2 * Double.pi * Double(index)/Double(numPoints))
-                print(sizeFactor, numPoints, edgeLength, String(edgeAngle) + "\n" + String(x), y)
+                //print(sizeFactor, numPoints, edgeLength, String(edgeAngle) + "\n" + String(x), y)
             default: x = 0; y = 0
             }
             points.append(CGPoint(x: x, y: y))
@@ -75,16 +78,27 @@ class GameScene: SKScene {
         linearShapeNode.position = pos //CGPoint(x: startx, y: starty);
         
         linearShapeNode.physicsBody = SKPhysicsBody(edgeChainFrom: linearShapeNode.path!)
-        linearShapeNode.physicsBody?.mass = 100
-        linearShapeNode.physicsBody?.restitution = 0.75
-        linearShapeNode.physicsBody?.collisionBitMask = 0b0001
-        linearShapeNode.physicsBody?.categoryBitMask = 0b0001
+        linearShapeNode.physicsBody!.isDynamic = true
+        linearShapeNode.physicsBody!.collisionBitMask = linearShapeNode.physicsBody!.contactTestBitMask
+        linearShapeNode.physicsBody!.categoryBitMask = 0b0001
         
         linearShapeNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.random(in: -2 ... 2), duration: TimeInterval.random(in: 1 ... 2))))
         linearShapeNode.run(SKAction.repeatForever(SKAction.moveBy(x: CGFloat.random(in: -100 ... 100), y: CGFloat.random(in: -100 ... 100), duration: TimeInterval.random(in: 1 ... 3))))
         self.addChild(linearShapeNode);
         //print(startx, starty);
         
+    }
+    
+    func collisionBetween(ball: SKNode, object: SKNode) {
+        if object.name == "good" {
+            destroy(ball: ball)
+        } else if object.name == "bad" {
+            destroy(ball: ball)
+        }
+    }
+
+    func destroy(ball: SKNode) {
+        ball.removeFromParent()
     }
     
     func touchDown(atPoint pos : CGPoint) {
