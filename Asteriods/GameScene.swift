@@ -16,70 +16,115 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var asteroidCount = 0
     private var redBallCount = 0
     private var blueBallCount = 0
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
-    // Screen width.
+    
     public var screenWidth: CGFloat {
         return UIScreen.main.bounds.width
     }
-
+    
     // Screen height.
     public var screenHeight: CGFloat {
         return UIScreen.main.bounds.height
     }
     
-    
-    private var blueBall : SKShapeNode?
+    private var bbNode : SKShapeNode?
     private var redBall : SKShapeNode?
-    private var greenBall : SKShapeNode?
-    private var ground : SKShapeNode?
+    private var cueNode : SKShapeNode?
+    private var bumperFrame : CGRect?
     private var asteroid : SKShapeNode?
-    let ballRadius: CGFloat = 20
+    let ballRadius: CGFloat = 30
+    var cueNodePoint = CGPoint(x: 0.0, y: 0.0)
+    let linearDamping = CGFloat(0.3)
     
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
-        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+        var bumperFrame = CGRect(x:-290, y:-650, width:580, height:1300)
+        physicsBody = SKPhysicsBody(edgeLoopFrom: bumperFrame )
         
-        physicsBody!.categoryBitMask = boundaryCategoryMask
-        for i in [-100, -50, 0, 50, 100]{
-            createShape(atPoint: CGPoint(x: i, y: 0))
-        }
-        greenBall = SKShapeNode(circleOfRadius: 40)
-        greenBall!.fillColor = .green
-        greenBall!.physicsBody = SKPhysicsBody(circleOfRadius: 40)
-        greenBall!.physicsBody?.affectedByGravity = false
-        greenBall!.physicsBody?.collisionBitMask = nodeCategoryMask // 0b0001
-        //greenBall!.physicsBody?.contactTestBitMask = nodeCategoryMask
-        //greenBall!.physicsBody?.categoryBitMask = nodeCategoryMask // 0b0001
-        greenBall!.position = CGPoint(x: 0, y: -400)
-        addChild(greenBall!)
+        
+        physicsBody!.categoryBitMask = nodeCategoryMask
+        
+        createCueNode()
 
     }
+    
+    func createCueNode() {
+        let a = [-100, -50, 0, 50, 100]
+        let b = [-75, -25, 25, -75]
+        
+        createShape(atPoint: CGPoint(x: 0, y: 100))
+        
+        for i in [-25, 25] {
+            createShape(atPoint: CGPoint(x: i, y: 150))
+        }
+        for i in [-50, 0, 50] {
+            createShape(atPoint: CGPoint(x: i, y: 200))
+        }
+        for i in [-75, -25, 25, 75] {
+            createShape(atPoint: CGPoint(x: i, y: 250))
+        }
+        for i in [-100, -50, 0, 50, 100] {
+            createShape(atPoint: CGPoint(x: i, y: 300))
+        }
+        cueNode = SKShapeNode(circleOfRadius: 40)
+        cueNode!.fillColor = .white
+        cueNode!.position = CGPoint(x: 0, y: -400)
+        cueNode!.physicsBody = SKPhysicsBody(circleOfRadius: 45)
+        cueNodePoint = cueNode!.position
+        cueNode!.physicsBody?.affectedByGravity = false
+        cueNode!.physicsBody?.allowsRotation = true
+        cueNode!.physicsBody?.isDynamic = true
+        cueNode!.physicsBody?.restitution = 1.0
+        cueNode!.physicsBody?.linearDamping = linearDamping
+        cueNode!.physicsBody?.collisionBitMask = nodeCategoryMask // 0b0001
+        //greenBall!.physicsBody?.contactTestBitMask = nodeCategoryMask
+        //greenBall!.physicsBody?.categoryBitMask = nodeCategoryMask // 0b0001
+        
+        addChild(cueNode!)
+        
+    }
+    
+    func createShape(atPoint pos : CGPoint) {
+        bbNode = SKShapeNode(circleOfRadius: ballRadius)
+        bbNode!.fillColor = .blue
+        bbNode!.position = pos
+        bbNode!.physicsBody = SKPhysicsBody(circleOfRadius: ballRadius)
+        bbNode!.physicsBody?.affectedByGravity = false
+        bbNode!.physicsBody?.allowsRotation = true
+        bbNode!.physicsBody?.isDynamic = true
+        bbNode!.physicsBody?.restitution = 1.0
+        bbNode!.physicsBody?.linearDamping = 0.3
+        //blueBall!.physicsBody?.collisionBitMask = nodeCategoryMask // 0b0001
+        bbNode!.physicsBody?.contactTestBitMask = nodeCategoryMask
+        bbNode!.physicsBody?.categoryBitMask = nodeCategoryMask // 0b0001
+        addChild(bbNode!)
+    }
+    
     func didBegin(_ contact: SKPhysicsContact) {
-        print("contact")
+        //print("any contact")
         if contact.bodyA.categoryBitMask == nodeCategoryMask {
+            if let a = contact.bodyA.node! as? SKShapeNode {
+                //a.fillColor = .orange
+                let dx = contact.bodyB.node!.position.x - cueNodePoint.x
+                let dy = cueNode!.position.y - cueNodePoint.y
+                print("physicsBody velocity", physicsBody!.velocity)
+                contact.bodyA.node!.physicsBody!.applyForce(contact.bodyB.node!.physicsBody!.velocity) //CGVector(dx: dx/10, dy: dy/10))
+                print("bodyA", dx, dy)
+            }
+            if let b = contact.bodyB.node! as? SKShapeNode {
+                //b.fillColor = .red
+            }
             //contact.run(.repeatForever(.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
             //contact.bodyA.node?.removeFromParent()
-            //print("asteroid removed")
+            //bodyA.velocity = 10// cueNode!.physicsBody!.velocity
+            
+            
+            
         }
         if contact.bodyB.categoryBitMask == nodeCategoryMask {
-            contact.bodyB.node?.removeFromParent()
-            print("asteroid removed")
+            //contact.bodyB.node?.removeFromParent()
+            contact.bodyB.node?.physicsBody?.applyForce(CGVector(dx: 1.0, dy: 1.0))
+            print("bodyB")
         }
-    }
-    func createShape(atPoint pos : CGPoint) {
-        blueBall = SKShapeNode(circleOfRadius: ballRadius)
-        blueBall!.fillColor = .blue
-        blueBall!.position = pos
-        blueBall!.physicsBody = SKPhysicsBody(circleOfRadius: ballRadius)
-        blueBall!.physicsBody?.affectedByGravity = false
-        
-        //blueBall!.physicsBody?.collisionBitMask = nodeCategoryMask // 0b0001
-        blueBall!.physicsBody?.contactTestBitMask = nodeCategoryMask
-        blueBall!.physicsBody?.categoryBitMask = nodeCategoryMask // 0b0001        blueBall!.name = "bad"
-       
-        addChild(blueBall!)
-        blueBallCount += 1
     }
     
     func collisionBetween(ball: SKNode, object: SKNode) {
@@ -101,12 +146,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //      self.addChild(n)
         //}
         //createShape(atPoint: pos)
+        cueNodePoint = cueNode!.position
     }
 
     func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.greenBall?.copy() as! SKShapeNode? {
-              greenBall!.position = pos
+        if let cue = self.cueNode?.copy() as! SKShapeNode? {
+            cueNode!.position = pos
+            updateNodeVelocity(timeInterval: 0.08)
+            cueNodePoint = cueNode!.position
+            print(cueNode!.position)
+            print(screenWidth, screenHeight)
         }
+    }
+    
+    func updateNodeVelocity(timeInterval:TimeInterval){
+        let dx = cueNode!.position.x - cueNodePoint.x
+        let dy = cueNode!.position.y - cueNodePoint.y
+        let xVelocity = dx/CGFloat(timeInterval)
+        let yVelocity = dy/CGFloat(timeInterval)
+        cueNode!.physicsBody!.velocity = CGVector(dx: xVelocity, dy: yVelocity)
     }
     
     func touchUp(atPoint pos : CGPoint) {
@@ -141,6 +199,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         
+        
+        //cueNodePoint =
+        
+        
+        
+        
         //removeAsteroid()
         //removeBlueBall()
         //removeRedBall()
@@ -173,8 +237,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func removeBlueBall() {
         if (blueBallCount > 0) {
-            if ((blueBall!.position.y < -300)) { // && (blueBall!.parent != nil) && !intersects(blueBall!)) {
-                blueBall!.removeFromParent()
+            if ((bbNode!.position.y < -300)) { // && (blueBall!.parent != nil) && !intersects(blueBall!)) {
+                bbNode!.removeFromParent()
                 print("blueBall removed.")
                 blueBallCount -= 1
                 print("blueBall count = ", blueBallCount)
