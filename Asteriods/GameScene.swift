@@ -10,6 +10,8 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    let boundaryCategoryMask: UInt32 = 0x1 << 1
+    let nodeCategoryMask: UInt32 = 0x1 << 2
     
     private var asteroidCount = 0
     private var redBallCount = 0
@@ -26,111 +28,58 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return UIScreen.main.bounds.height
     }
     
-    func didBegin(_ contact: SKPhysicsContact) {
-        print("contact")
-    }
+    
     private var blueBall : SKShapeNode?
     private var redBall : SKShapeNode?
+    private var greenBall : SKShapeNode?
     private var ground : SKShapeNode?
     private var asteroid : SKShapeNode?
+    let ballRadius: CGFloat = 20
     
     override func didMove(to view: SKView) {
-        physicsWorld.contactDelegate = self
-        // Get label node from scene and store it for use later
-//        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-//        if let label = self.label {
-//            label.alpha = 0.0
-//            label.run(SKAction.fadeIn(withDuration: 2.0))
-//        }
+        self.physicsWorld.contactDelegate = self
+        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w*0)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi/2), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
+        physicsBody!.categoryBitMask = boundaryCategoryMask
+        for i in [-100, -50, 0, 50, 100]{
+            createShape(atPoint: CGPoint(x: i, y: 0))
+        }
+        greenBall = SKShapeNode(circleOfRadius: 40)
+        greenBall!.fillColor = .green
+        greenBall!.physicsBody = SKPhysicsBody(circleOfRadius: 40)
+        greenBall!.physicsBody?.affectedByGravity = false
+        greenBall!.physicsBody?.collisionBitMask = nodeCategoryMask // 0b0001
+        //greenBall!.physicsBody?.contactTestBitMask = nodeCategoryMask
+        //greenBall!.physicsBody?.categoryBitMask = nodeCategoryMask // 0b0001
+        greenBall!.position = CGPoint(x: 0, y: -400)
+        addChild(greenBall!)
+
+    }
+    func didBegin(_ contact: SKPhysicsContact) {
+        print("contact")
+        if contact.bodyA.categoryBitMask == nodeCategoryMask {
+            //contact.run(.repeatForever(.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
+            //contact.bodyA.node?.removeFromParent()
+            //print("asteroid removed")
+        }
+        if contact.bodyB.categoryBitMask == nodeCategoryMask {
+            contact.bodyB.node?.removeFromParent()
+            print("asteroid removed")
         }
     }
     func createShape(atPoint pos : CGPoint) {
-        
-        let startx = CGFloat.random(in: -(screenWidth)/2 ..< (screenWidth/2)-50 )
-        let starty = CGFloat.random(in: -(screenHeight)/2 ..< (screenHeight/2))
-        let sizeFactor = Int.random(in: 1 ... 4)
-        let numPoints = Int.random(in: 8 ... 20)
-        let edgeAngle: Double = Double(360 / numPoints)
-                
-        var points: [CGPoint] = []
-        
-        for index in 0 ..< numPoints {
-            let x: Double
-            let y: Double
-            let edgeLength = Double.random(in: 10 ... 30) * Double(sizeFactor)
-            
-            switch(index) {
-            case 1 ... numPoints - 2:
-                x = edgeLength * cos(2 * Double.pi * Double(index)/Double(numPoints))
-                y = edgeLength * sin(2 * Double.pi * Double(index)/Double(numPoints))
-                //print(sizeFactor, numPoints, edgeLength, String(edgeAngle) + "\n" + String(x), y)
-            default: x = 0; y = 0
-            }
-            points.append(CGPoint(x: x, y: y))
-        }
-        
-        asteroid = SKShapeNode(points: &points, count: points.count)
-        asteroid!.position = pos //CGPoint(x: startx, y: starty);
-        
-        
-        //linearShapeNode.physicsBody!.isDynamic = true
-        //linearShapeNode!.physicsBody?.collisionBitMask = 0b0001
-        //linearShapeNode!.physicsBody?.contactTestBitMask = 0b0001
-        //linearShapeNode.physicsBody!.categoryBitMask = 0b0001
-        
-        asteroid!.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.random(in: -2 ... 2), duration: TimeInterval.random(in: 1 ... 2))))
-        asteroid!.run(SKAction.repeatForever(SKAction.moveBy(x: CGFloat.random(in: -100 ... 100), y: CGFloat.random(in: -100 ... 100), duration: TimeInterval.random(in: 1 ... 3))))
-        
-        asteroid!.fillColor = .gray
-        self.addChild(asteroid!);
-        let ballRadius: CGFloat = 20
-        redBall = SKShapeNode(circleOfRadius: ballRadius)
-        redBall!.fillColor = .red
-        redBall!.physicsBody = SKPhysicsBody(circleOfRadius: ballRadius)
-
         blueBall = SKShapeNode(circleOfRadius: ballRadius)
         blueBall!.fillColor = .blue
-        blueBall!.position = CGPoint(x: 60, y: 20)
+        blueBall!.position = pos
         blueBall!.physicsBody = SKPhysicsBody(circleOfRadius: ballRadius)
-
-        var splinePoints = [CGPoint(x: -screenWidth, y: 200),
-                           CGPoint(x: 0, y: -50),
-                           CGPoint(x: 300, y: 10),
-                           CGPoint(x: 440, y: -80)]
-        ground = SKShapeNode(splinePoints: &splinePoints,
-                                count: splinePoints.count)
-        asteroid!.physicsBody = SKPhysicsBody(edgeChainFrom: asteroid!.path!)
-        ground!.physicsBody = SKPhysicsBody(edgeChainFrom: ground!.path!)
-        ground!.physicsBody?.restitution = 0.75
-
-        asteroid!.physicsBody?.collisionBitMask = 0b0001
-        redBall!.physicsBody?.collisionBitMask = 0b0001
-        blueBall!.physicsBody?.collisionBitMask = 0b0010
-        ground!.physicsBody?.categoryBitMask = 0b0001
-        redBall!.name = "good"
-        blueBall!.name = "bad"
-
+        blueBall!.physicsBody?.affectedByGravity = false
+        
+        //blueBall!.physicsBody?.collisionBitMask = nodeCategoryMask // 0b0001
+        blueBall!.physicsBody?.contactTestBitMask = nodeCategoryMask
+        blueBall!.physicsBody?.categoryBitMask = nodeCategoryMask // 0b0001        blueBall!.name = "bad"
        
         addChild(blueBall!)
-        addChild(ground!)
-        addChild(redBall!)
-        //print(startx, starty);
-        asteroidCount += 1
-        redBallCount += 1
         blueBallCount += 1
-        
     }
     
     func collisionBetween(ball: SKNode, object: SKNode) {
@@ -146,24 +95,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func touchDown(atPoint pos : CGPoint) {
-//        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-//            n.position = pos
-//            n.strokeColor = SKColor.green
-//            self.addChild(n)
-//        }
-        createShape(atPoint: pos)
-        
-        
-        //print(screenWidth, screenHeight)
-        
+        //if let n = self.blueBall?.copy() as! SKShapeNode? {
+        //      n.position = pos
+        //      n.strokeColor = SKColor.red
+        //      self.addChild(n)
+        //}
+        //createShape(atPoint: pos)
     }
 
     func touchMoved(toPoint pos : CGPoint) {
-//        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-//            n.position = pos
-//            n.strokeColor = SKColor.blue
-//            self.addChild(n)
-//        }
+        if let n = self.greenBall?.copy() as! SKShapeNode? {
+              greenBall!.position = pos
+        }
     }
     
     func touchUp(atPoint pos : CGPoint) {
@@ -198,9 +141,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         
-        removeAsteroid()
-        removeBlueBall()
-        removeRedBall()
+        //removeAsteroid()
+        //removeBlueBall()
+        //removeRedBall()
         
     }
     
@@ -208,7 +151,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (asteroidCount > 0) {
             let y = asteroid!.position.y
             let x = asteroid!.position.x
-            if (y < -300 || y > 300 || x < -300 || x > 300) { //} && (asteroid!.parent != nil) && !intersects(asteroid!)) {
+            if (y < -50 || y > 50 || x < -100 || x > 100) { //} && (asteroid!.parent != nil) && !intersects(asteroid!)) {
                 asteroid!.removeFromParent()
                 print("asteroid removed.")
                 asteroidCount -= 1
@@ -219,21 +162,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func removeRedBall() {
         if (redBallCount > 0) {
-            if ((redBall!.position.y < -500)) {// && (redBall!.parent != nil) && !intersects(redBall!)) {
+            if ((redBall!.position.y < -300)) { // && (redBall!.parent != nil) && !intersects(redBall!)) {
                 redBall!.removeFromParent()
                 print("redBall removed.")
                 redBallCount -= 1
-                print("asteroid count = ", asteroidCount)
+                print("redBall count = ", redBallCount)
             }
         }
     }
     
     func removeBlueBall() {
-        if (blueBallCount > 0 && (blueBall!.position.y < -1000)) { //} && (blueBall!.parent != nil) && !intersects(blueBall!)) {
-            blueBall!.removeFromParent()
-            print("blueBall removed.")
-            blueBallCount -= 1
-            print("blueBall count = ", blueBallCount)
+        if (blueBallCount > 0) {
+            if ((blueBall!.position.y < -300)) { // && (blueBall!.parent != nil) && !intersects(blueBall!)) {
+                blueBall!.removeFromParent()
+                print("blueBall removed.")
+                blueBallCount -= 1
+                print("blueBall count = ", blueBallCount)
+        
+            }
         }
     }
 }
