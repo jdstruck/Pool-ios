@@ -1,15 +1,15 @@
 //
-//  AsteriodsTests.swift
-//  AsteriodsTests
+//  Pool_iosTests.swift
+//  Pool-iosTests
 //
-//  Created by Jesse Struck on 9/24/19.
+//  Created by Jesse Struck on 10/4/19.
 //  Copyright © 2019 Jesse Struck. All rights reserved.
 //
 
 import XCTest
-@testable import Asteriods
+@testable import Pool_ios
 
-class AsteriodsTests: XCTestCase {
+class Pool_iosTests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.

@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  Asteriods
+//  Pool-ios
 //
-//  Created by Jesse Struck on 9/24/19.
+//  Created by Jesse Struck on 10/4/19.
 //  Copyright © 2019 Jesse Struck. All rights reserved.
 //
 
