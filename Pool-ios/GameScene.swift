@@ -30,7 +30,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var redBall : SKShapeNode?
     private var cueNode : SKShapeNode?
     private var bumperFrame : CGRect?
-    private var asteroid : SKShapeNode?
+    private var selectedNode = SKShapeNode() // : SKShapeNode?
     let ballRadius: CGFloat = 30
     var cueNodePoint = CGPoint(x: 0.0, y: 0.0)
     let linearDamping = CGFloat(0.3)
@@ -66,6 +66,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             createShape(atPoint: CGPoint(x: i, y: 300))
         }
         cueNode = SKShapeNode(circleOfRadius: 40)
+        cueNode!.name = "cue"
         cueNode!.fillColor = .white
         cueNode!.position = CGPoint(x: 0, y: -400)
         cueNode!.physicsBody = SKPhysicsBody(circleOfRadius: 45)
@@ -85,6 +86,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createShape(atPoint pos : CGPoint) {
         bbNode = SKShapeNode(circleOfRadius: ballRadius)
+        bbNode!.name = "num"
         bbNode!.fillColor = .blue
         bbNode!.position = pos
         bbNode!.physicsBody = SKPhysicsBody(circleOfRadius: ballRadius)
@@ -106,9 +108,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //a.fillColor = .orange
                 let dx = contact.bodyB.node!.position.x - cueNodePoint.x
                 let dy = cueNode!.position.y - cueNodePoint.y
-                print("physicsBody velocity", physicsBody!.velocity)
+                //print("physicsBody velocity", physicsBody!.velocity)
                 contact.bodyA.node!.physicsBody!.applyForce(contact.bodyB.node!.physicsBody!.velocity) //CGVector(dx: dx/10, dy: dy/10))
-                print("bodyA", dx, dy)
+                //print("bodyA", dx, dy)
             }
             if let b = contact.bodyB.node! as? SKShapeNode {
                 //b.fillColor = .red
@@ -123,7 +125,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyB.categoryBitMask == nodeCategoryMask {
             //contact.bodyB.node?.removeFromParent()
             contact.bodyB.node?.physicsBody?.applyForce(CGVector(dx: 1.0, dy: 1.0))
-            print("bodyB")
+            //print("bodyB")
         }
     }
     
@@ -139,62 +141,139 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.removeFromParent()
     }
     
-    func touchDown(atPoint pos : CGPoint) {
+    func degToRad(degree: Double) -> CGFloat {
+        return CGFloat(Double(degree) / 180.0 * Double.pi)
+    }
+
+    func selectNodeForTouch(touchLocation: CGPoint) {
+      // 1
+        let touchedNode = self.atPoint(touchLocation)
+      
+      if touchedNode is SKShapeNode {
+        // 2
+        if !selectedNode.isEqual(touchedNode) {
+            selectedNode.removeAllActions()
+            //selectedNode.run(SKAction.rotate(toAngle: 0.0, duration: 0.1))
+      
+            selectedNode = touchedNode as! SKShapeNode
+            print(selectedNode)
+          // 3
+          if touchedNode.name! == "cue" {
+            //let sequence = SKAction.sequence([SKAction.rotateByAngle(degToRad(-4.0), duration: 0.1),
+            //  SKAction.rotateByAngle(0.0, duration: 0.1),
+            //  SKAction.rotateByAngle(degToRad(4.0), duration: 0.1)])
+            //selectedNode.runAction(SKAction.repeatActionForever(sequence))
+          }
+        }
+      }
+    }
+    
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+////        if let label = self.label {
+////            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
+////        }
+//
+//        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+//    }
+
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches {
+            let location = t.location(in: self)
+            let previousLocation = t.previousLocation(in: self)
+            let touchedNode = self.atPoint(location)
+            print("touchesBegan node", t)
+            if (touchedNode.name == "cue" || touchedNode.name == "num") {
+                touchedNode.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
+                //touchedNode.name = "selected"
+                selectedNode = touchedNode as! SKShapeNode
+                //let velocity = updateNodeVelocity(timeInterval:0.00, touchedNode: touchedNode, location: location, previousLocation: location)
+                //touchedNode.physicsBody!.velocity = velocity
+                //touchedNode.position = pos
+                //self.touchMoved(toPoint: t.location(in: self), touchedNode: touchedNode)
+            }
+        }
+//        for touch in touches {
+//            let location = touch.location(in: self)
+//            let node : SKNode = self.atPoint(location)
+//            if node.name == "cue" {
+//                print("touches began cue")
+//            }
+//        }
+    }
+    func touchDown(atPoint pos : CGPoint, touchedNode : SKNode) {
         //if let n = self.blueBall?.copy() as! SKShapeNode? {
         //      n.position = pos
         //      n.strokeColor = SKColor.red
         //      self.addChild(n)
         //}
         //createShape(atPoint: pos)
-        cueNodePoint = cueNode!.position
-    }
-
-    func touchMoved(toPoint pos : CGPoint) {
-        if let cue = self.cueNode?.copy() as! SKShapeNode? {
-            cueNode!.position = pos
-            updateNodeVelocity(timeInterval: 0.08)
-            cueNodePoint = cueNode!.position
-            print(cueNode!.position)
-            print(screenWidth, screenHeight)
-        }
-    }
-    
-    func updateNodeVelocity(timeInterval:TimeInterval){
-        let dx = cueNode!.position.x - cueNodePoint.x
-        let dy = cueNode!.position.y - cueNodePoint.y
-        let xVelocity = dx/CGFloat(timeInterval)
-        let yVelocity = dy/CGFloat(timeInterval)
-        cueNode!.physicsBody!.velocity = CGVector(dx: xVelocity, dy: yVelocity)
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-//        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-//            n.position = pos
-//            n.strokeColor = SKColor.red
-//            self.addChild(n)
-//        }
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if let label = self.label {
-//            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-//        }
+        //print("touchDown node", touchedNode)
+        //touchedNode.position = pos
         
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+        for t in touches {
+            let location = t.location(in: self)
+            let previousLocation = t.previousLocation(in: self)
+            let touchedNode = selectedNode //self.atPoint(location)
+            print("touchesMoved", t)
+            //if (touchedNode.name == "selected") { //touchedNode.name == "cue" || touchedNode.name == "num") {
+                
+            //let velocity = updateNodeVelocity(timeInterval:0.08, touchedNode: touchedNode, location: location, previousLocation: previousLocation)
+            
+
+            //touchedNode.physicsBody!.velocity = velocity
+            touchedNode.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
+            touchedNode.position = location
+            //self.touchMoved(toPoint: t.location(in: self), touchedNode: touchedNode)
+            //}
+        }
+    }
+    
+    func touchMoved(toPoint pos : CGPoint, touchedNode : SKNode) {
+        touchedNode.position = pos
+        //updateNodeVelocity(timeInterval: 0.08, touchedNode: touchedNode)
+        //cueNodePoint = touchedNode.position
+    }
+    
+    func updateNodeVelocity(timeInterval:TimeInterval, touchedNode: SKNode, location: CGPoint, previousLocation: CGPoint) -> CGVector {
+        let dx = location.x - previousLocation.x
+        let dy = location.y - previousLocation.y
+        let xVelocity = dx/CGFloat(timeInterval)
+        let yVelocity = dy/CGFloat(timeInterval)
+        return CGVector(dx: xVelocity, dy: yVelocity)
+          //touchedNode.physicsBody!.velocity = CGVector(dx: xVelocity, dy: yVelocity)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        for t in touches {
+            let location = t.location(in: self)
+            let previousLocation = t.previousLocation(in: self)
+            let touchedNode = selectedNode //self.atPoint(location)
+            print("touchesEnded", t)
+            if (touchedNode.name == "cue" || touchedNode.name == "num") {
+                //touchedNode.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
+                //touchedNode.name = "selected"
+                //selectedNode = touchedNode as! SKShapeNode
+                let velocity = updateNodeVelocity(timeInterval:0.08, touchedNode: touchedNode, location: location, previousLocation: previousLocation)
+                touchedNode.physicsBody!.velocity = velocity
+                //touchedNode.physicsBody!.applyForce(velocity)
+                //touchedNode.position = pos
+                //print("touchesEnded", t)
+                self.touchUp(atPoint: t.location(in: self))
+            }
+        }
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
-    
+    func touchUp(atPoint pos : CGPoint) {
+        selectedNode = SKShapeNode()
+        //updateNodeVelocity(timeInterval: 0.08)
+    }
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
@@ -202,38 +281,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //cueNodePoint =
         
-        
-        
-        
-        //removeAsteroid()
-        //removeBlueBall()
-        //removeRedBall()
-        
     }
-    
-    func removeAsteroid() {
-        if (asteroidCount > 0) {
-            let y = asteroid!.position.y
-            let x = asteroid!.position.x
-            if (y < -50 || y > 50 || x < -100 || x > 100) { //} && (asteroid!.parent != nil) && !intersects(asteroid!)) {
-                asteroid!.removeFromParent()
-                print("asteroid removed.")
-                asteroidCount -= 1
-                print("asteroid count = ", asteroidCount)
-            }
-        }
-    }
-    
-    func removeRedBall() {
-        if (redBallCount > 0) {
-            if ((redBall!.position.y < -300)) { // && (redBall!.parent != nil) && !intersects(redBall!)) {
-                redBall!.removeFromParent()
-                print("redBall removed.")
-                redBallCount -= 1
-                print("redBall count = ", redBallCount)
-            }
-        }
-    }
+
     
     func removeBlueBall() {
         if (blueBallCount > 0) {
