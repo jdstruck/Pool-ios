@@ -32,7 +32,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var bumperFrame : CGRect?
     private var selectedNode = SKShapeNode() // : SKShapeNode?
     let ballRadius: CGFloat = 30
-    var cueNodePoint = CGPoint(x: 0.0, y: 0.0)
+    var selectedNodeVelocity = CGVector(dx: 0.0, dy: 0.0)
+    var selectedNodeTouchesMovedCount = 0
     let linearDamping = CGFloat(0.3)
     
     override func didMove(to view: SKView) {
@@ -70,7 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cueNode!.fillColor = .white
         cueNode!.position = CGPoint(x: 0, y: -400)
         cueNode!.physicsBody = SKPhysicsBody(circleOfRadius: 45)
-        cueNodePoint = cueNode!.position
+        //cueNodePoint = cueNode!.position
         cueNode!.physicsBody?.affectedByGravity = false
         cueNode!.physicsBody?.allowsRotation = true
         cueNode!.physicsBody?.isDynamic = true
@@ -106,8 +107,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask == nodeCategoryMask {
             if let a = contact.bodyA.node! as? SKShapeNode {
                 //a.fillColor = .orange
-                let dx = contact.bodyB.node!.position.x - cueNodePoint.x
-                let dy = cueNode!.position.y - cueNodePoint.y
+                //let dx = contact.bodyB.node!.position.x - cueNodePoint.x
+                //let dy = cueNode!.position.y - cueNodePoint.y
                 //print("physicsBody velocity", physicsBody!.velocity)
                 contact.bodyA.node!.physicsBody!.applyForce(contact.bodyB.node!.physicsBody!.velocity) //CGVector(dx: dx/10, dy: dy/10))
                 //print("bodyA", dx, dy)
@@ -221,21 +222,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("touchesMoved", t)
             //if (touchedNode.name == "selected") { //touchedNode.name == "cue" || touchedNode.name == "num") {
                 
-            //let velocity = updateNodeVelocity(timeInterval:0.08, touchedNode: touchedNode, location: location, previousLocation: previousLocation)
+            selectedNodeVelocity = updateNodeVelocity(timeInterval:0.05, touchedNode: touchedNode, location: location, previousLocation: previousLocation)
             
 
             //touchedNode.physicsBody!.velocity = velocity
             touchedNode.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
             touchedNode.position = location
+            selectedNodeTouchesMovedCount += 1
             //self.touchMoved(toPoint: t.location(in: self), touchedNode: touchedNode)
             //}
         }
     }
     
     func touchMoved(toPoint pos : CGPoint, touchedNode : SKNode) {
-        touchedNode.position = pos
-        //updateNodeVelocity(timeInterval: 0.08, touchedNode: touchedNode)
-        //cueNodePoint = touchedNode.position
     }
     
     func updateNodeVelocity(timeInterval:TimeInterval, touchedNode: SKNode, location: CGPoint, previousLocation: CGPoint) -> CGVector {
@@ -257,8 +256,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //touchedNode.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
                 //touchedNode.name = "selected"
                 //selectedNode = touchedNode as! SKShapeNode
-                let velocity = updateNodeVelocity(timeInterval:0.08, touchedNode: touchedNode, location: location, previousLocation: previousLocation)
-                touchedNode.physicsBody!.velocity = velocity
+                //let velocity = updateNodeVelocity(timeInterval:0.05, touchedNode: touchedNode, location: location, previousLocation: previousLocation)
+                touchedNode.physicsBody!.velocity = selectedNodeVelocity
                 //touchedNode.physicsBody!.applyForce(velocity)
                 //touchedNode.position = pos
                 //print("touchesEnded", t)
@@ -272,6 +271,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     func touchUp(atPoint pos : CGPoint) {
         selectedNode = SKShapeNode()
+        print(selectedNodeTouchesMovedCount)
+        selectedNodeTouchesMovedCount = 0
         //updateNodeVelocity(timeInterval: 0.08)
     }
     
