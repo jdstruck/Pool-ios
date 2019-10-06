@@ -12,7 +12,6 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     let boundaryCategoryMask: UInt32 = 0x1 << 1
     let nodeCategoryMask: UInt32 = 0x1 << 2
-    
     private var asteroidCount = 0
     private var redBallCount = 0
     private var blueBallCount = 0
@@ -34,9 +33,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let ballRadius: CGFloat = 30
     var selectedNodeVelocity = CGVector(dx: 0.0, dy: 0.0)
     var selectedNodeTouchesMovedCount = 0
-    let linearDamping = CGFloat(0.3)
+    let linearDamping = CGFloat(0.8)
     
     override func didMove(to view: SKView) {
+        print("nativeBounds", UIScreen.main.nativeBounds)
+        print("bounds", UIScreen.main.bounds)
+        print("nativeScale", UIScreen.main.nativeScale)
+        print("scale", UIScreen.main.scale)
         self.physicsWorld.contactDelegate = self
         let bumperFrame = CGRect(x:-290, y:-650, width:580, height:1300)
         physicsBody = SKPhysicsBody(edgeLoopFrom: bumperFrame )
@@ -74,7 +77,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //cueNodePoint = cueNode!.position
         cueNode!.physicsBody?.affectedByGravity = false
         cueNode!.physicsBody?.allowsRotation = true
-        cueNode!.physicsBody?.isDynamic = true
+        //cueNode!.physicsBody?.isDynamic = true
         cueNode!.physicsBody?.restitution = 1.0
         cueNode!.physicsBody?.linearDamping = linearDamping
         cueNode!.physicsBody?.collisionBitMask = nodeCategoryMask // 0b0001
@@ -93,9 +96,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bbNode!.physicsBody = SKPhysicsBody(circleOfRadius: ballRadius)
         bbNode!.physicsBody?.affectedByGravity = false
         bbNode!.physicsBody?.allowsRotation = true
-        bbNode!.physicsBody?.isDynamic = true
+        //bbNode!.physicsBody?.isDynamic = true
         bbNode!.physicsBody?.restitution = 1.0
-        bbNode!.physicsBody?.linearDamping = 0.3
+        bbNode!.physicsBody?.linearDamping = linearDamping
         //blueBall!.physicsBody?.collisionBitMask = nodeCategoryMask // 0b0001
         bbNode!.physicsBody?.contactTestBitMask = nodeCategoryMask
         bbNode!.physicsBody?.categoryBitMask = nodeCategoryMask // 0b0001
@@ -134,6 +137,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for t in touches {
             print("touchesBegan touch count", t.tapCount)
             let location = t.location(in: self)
+            print(location)
             //let previousLocation = t.previousLocation(in: self)
             let touchedNode = self.atPoint(location)
             //print("touchesBegan node", t)
