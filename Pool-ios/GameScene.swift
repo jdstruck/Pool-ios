@@ -69,39 +69,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for i in [-100, -50, 0, 50, 100] {
             createShape(atPoint: CGPoint(x: i, y: 300))
         }
-        cueNode = SKShapeNode(circleOfRadius: 40)
+        cueNode = Ball(circleOfRadius: 40)
         cueNode!.name = "cue"
         cueNode!.fillColor = .white
         cueNode!.position = CGPoint(x: 0, y: -400)
-        cueNode!.physicsBody = SKPhysicsBody(circleOfRadius: 45)
-        //cueNodePoint = cueNode!.position
-        cueNode!.physicsBody?.affectedByGravity = false
-        cueNode!.physicsBody?.allowsRotation = true
-        //cueNode!.physicsBody?.isDynamic = true
-        cueNode!.physicsBody?.restitution = 1.0
-        cueNode!.physicsBody?.linearDamping = linearDamping
-        cueNode!.physicsBody?.collisionBitMask = nodeCategoryMask // 0b0001
-        //greenBall!.physicsBody?.contactTestBitMask = nodeCategoryMask
-        //greenBall!.physicsBody?.categoryBitMask = nodeCategoryMask // 0b0001
-        
+//        cueNode!.physicsBody = SKPhysicsBody(circleOfRadius: 45)
+//        //cueNodePoint = cueNode!.position
+//        cueNode!.physicsBody?.affectedByGravity = false
+//        cueNode!.physicsBody?.allowsRotation = true
+//        cueNode!.physicsBody?.isDynamic = true
+//        cueNode!.physicsBody?.restitution = 1.0
+//        cueNode!.physicsBody?.linearDamping = linearDamping
+//        cueNode!.physicsBody?.collisionBitMask = nodeCategoryMask // 0b0001
+//        //greenBall!.physicsBody?.contactTestBitMask = nodeCategoryMask
+//        //greenBall!.physicsBody?.categoryBitMask = nodeCategoryMask // 0b0001
+//
         addChild(cueNode!)
         
     }
     
     func createShape(atPoint pos : CGPoint) {
-        bbNode = SKShapeNode(circleOfRadius: ballRadius)
+        bbNode = Ball(circleOfRadius: ballRadius)
         bbNode!.name = "num"
         bbNode!.fillColor = .blue
         bbNode!.position = pos
-        bbNode!.physicsBody = SKPhysicsBody(circleOfRadius: ballRadius)
-        bbNode!.physicsBody?.affectedByGravity = false
-        bbNode!.physicsBody?.allowsRotation = true
-        //bbNode!.physicsBody?.isDynamic = true
-        bbNode!.physicsBody?.restitution = 1.0
-        bbNode!.physicsBody?.linearDamping = linearDamping
-        //blueBall!.physicsBody?.collisionBitMask = nodeCategoryMask // 0b0001
-        bbNode!.physicsBody?.contactTestBitMask = nodeCategoryMask
-        bbNode!.physicsBody?.categoryBitMask = nodeCategoryMask // 0b0001
+//        bbNode!.physicsBody = SKPhysicsBody(circleOfRadius: ballRadius)
+//        bbNode!.physicsBody?.affectedByGravity = false
+//        bbNode!.physicsBody?.allowsRotation = true
+//        bbNode!.physicsBody?.isDynamic = false
+//        bbNode!.physicsBody?.restitution = 1.0
+//        bbNode!.physicsBody?.linearDamping = linearDamping
+//        //blueBall!.physicsBody?.collisionBitMask = nodeCategoryMask // 0b0001
+//        bbNode!.physicsBody?.contactTestBitMask = nodeCategoryMask
+//        bbNode!.physicsBody?.categoryBitMask = nodeCategoryMask // 0b0001
         addChild(bbNode!)
     }
     
