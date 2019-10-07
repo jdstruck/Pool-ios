@@ -15,6 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var asteroidCount = 0
     private var redBallCount = 0
     private var blueBallCount = 0
+    var screenSize: CGSize = CGSize()
     
     var screenWidth: CGFloat = 0.0
     
@@ -37,12 +38,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        print("bounds", UIScreen.main.bounds)
 //        print("nativeScale", UIScreen.main.nativeScale)
 //        print("scale", UIScreen.main.scale)
+        self.screenSize = viewSizeInLocalCoordinates()
         self.view?.isPaused = false
         self.screenWidth = (self.view?.bounds.width)!
         self.screenHeight = (self.view?.bounds.height)!
-        print(screenWidth, screenHeight)
+        print("screenSize", screenSize, "screenWidth/Height", screenSize.width, screenSize.height)
         self.physicsWorld.contactDelegate = self
-        let bumperFrame = CGRect(x:-372, y:-665, width:740, height:1330)
+        let bumperFrame = CGRect(x:-screenSize.width/2, y:screenSize.height/2, width: screenSize.width, height:abs(screenSize.height))
         physicsBody = SKPhysicsBody(edgeLoopFrom: bumperFrame )
         physicsBody!.categoryBitMask = nodeCategoryMask
         
@@ -50,14 +52,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupBallNodes()
 
     }
-    
+    func viewSizeInLocalCoordinates() -> CGSize {
+        let reference = CGPoint(x: view!.bounds.maxX, y: view!.bounds.maxY)
+        let bottomLeft = convertPoint(fromView: .zero)
+        let topRight = convertPoint(fromView: reference)
+        let d = CGPoint(x: topRight.x - bottomLeft.x, y: topRight.y - bottomLeft.y)
+        return CGSize(width: d.x, height: d.y)
+    }
     func setupPocketNodes() {
-        createPocket(atPoint: CGPoint(x: -372+10, y: 665-10), name: "ll", color: .darkGray)
-        createPocket(atPoint: CGPoint(x: 372-10, y: 665-10), name: "ll", color: .darkGray)
+        createPocket(atPoint: CGPoint(x: -372+10, y: 665-10), name: "ul", color: .darkGray)
+        createPocket(atPoint: CGPoint(x: 372-10, y: 665-10), name: "ur", color: .darkGray)
         createPocket(atPoint: CGPoint(x: -372+10, y: -665+10), name: "ll", color: .darkGray)
-        createPocket(atPoint: CGPoint(x: 372-10, y: -665+10), name: "ll", color: .darkGray)
-        createPocket(atPoint: CGPoint(x: -372-15, y: -0), name: "ll", color: .darkGray)
-        createPocket(atPoint: CGPoint(x: 372+15, y: -0), name: "ll", color: .darkGray)
+        createPocket(atPoint: CGPoint(x: 372-10, y: -665+10), name: "lr", color: .darkGray)
+        createPocket(atPoint: CGPoint(x: -372-15, y: 0), name: "ml", color: .darkGray)
+        createPocket(atPoint: CGPoint(x: 372+15, y: 0), name: "mr", color: .darkGray)
         
     }
     
@@ -141,7 +149,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("touchesBegan touch count", t.tapCount)
             let location = t.location(in: self)
             print(location)
-            print("nativeBounds", UIScreen.main.nativeBounds, "bounds", UIScreen.main.bounds, "nativeScale", UIScreen.main.nativeScale, "scale", UIScreen.main.scale)
+            print("nativeBounds", UIScreen.main.nativeBounds.height, "bounds", UIScreen.main.bounds, "nativeScale", UIScreen.main.nativeScale, "scale", UIScreen.main.scale)
+            //print(height)
             //let previousLocation = t.previousLocation(in: self)
             self.view?.isPaused = false
 
@@ -158,8 +167,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
+            
             let location = t.location(in: self)
-            print(location)
+            //print(d)
+            //print(convertPoint(fromView: location))
             let previousLocation = t.previousLocation(in: self)
             let touchedNode = selectedNode
             selectedNodeVelocity = updateNodeVelocity(timeInterval:0.05, touchedNode: touchedNode, location: location, previousLocation: previousLocation)
