@@ -17,7 +17,7 @@ class Pocket: SKShapeNode {
     override init() {
         super.init()
         //position = CGPoint(x: 0, y: -400)
-        physicsBody = SKPhysicsBody(circleOfRadius: 50)
+        physicsBody = SKPhysicsBody(circleOfRadius: 40)
         physicsBody?.affectedByGravity = false
         physicsBody?.allowsRotation = false
         physicsBody?.isDynamic = false

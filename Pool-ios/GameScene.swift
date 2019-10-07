@@ -28,7 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var bumperFrame : CGRect?
     private var selectedNode = SKShapeNode()
     let ballRadius: CGFloat = 40
-    let pocketRadius: CGFloat = 50
+    let pocketRadius: CGFloat = 70
     var selectedNodeVelocity = CGVector(dx: 0.0, dy: 0.0)
     var selectedNodeTouchesMovedCount = 0
     let linearDamping = CGFloat(0.8)
@@ -40,11 +40,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        print("scale", UIScreen.main.scale)
         self.screenSize = viewSizeInLocalCoordinates()
         self.view?.isPaused = false
-        self.screenWidth = (self.view?.bounds.width)!
-        self.screenHeight = (self.view?.bounds.height)!
+        self.screenWidth = abs(screenSize.width)
+        self.screenHeight = abs(screenSize.height)
         print("screenSize", screenSize, "screenWidth/Height", screenSize.width, screenSize.height)
         self.physicsWorld.contactDelegate = self
-        let bumperFrame = CGRect(x:-screenSize.width/2, y:screenSize.height/2, width: screenSize.width, height:abs(screenSize.height))
+        let bumperFrame = CGRect(x:-screenSize.width/2, y:screenSize.height/2, width: screenWidth, height: screenHeight)
         physicsBody = SKPhysicsBody(edgeLoopFrom: bumperFrame )
         physicsBody!.categoryBitMask = nodeCategoryMask
         
@@ -59,13 +59,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let d = CGPoint(x: topRight.x - bottomLeft.x, y: topRight.y - bottomLeft.y)
         return CGSize(width: d.x, height: d.y)
     }
+    
     func setupPocketNodes() {
-        createPocket(atPoint: CGPoint(x: -372+10, y: 665-10), name: "ul", color: .darkGray)
-        createPocket(atPoint: CGPoint(x: 372-10, y: 665-10), name: "ur", color: .darkGray)
-        createPocket(atPoint: CGPoint(x: -372+10, y: -665+10), name: "ll", color: .darkGray)
-        createPocket(atPoint: CGPoint(x: 372-10, y: -665+10), name: "lr", color: .darkGray)
-        createPocket(atPoint: CGPoint(x: -372-15, y: 0), name: "ml", color: .darkGray)
-        createPocket(atPoint: CGPoint(x: 372+15, y: 0), name: "mr", color: .darkGray)
+        let cornerPocketsOffset = CGFloat(0)
+        let sidePocketsOffset = CGFloat(40)
+        let x = screenWidth/2 - cornerPocketsOffset
+        let y = screenHeight/2 - cornerPocketsOffset
+        createPocket(atPoint: CGPoint(x: -x, y: y), name: "ul", color: .darkGray)
+        createPocket(atPoint: CGPoint(x: x, y: y), name: "ur", color: .darkGray)
+        createPocket(atPoint: CGPoint(x: -x, y: -y), name: "ll", color: .darkGray)
+        createPocket(atPoint: CGPoint(x: x, y: -y), name: "lr", color: .darkGray)
+        createPocket(atPoint: CGPoint(x: -x-sidePocketsOffset, y: 0), name: "ml", color: .darkGray)
+        createPocket(atPoint: CGPoint(x: x+sidePocketsOffset, y: 0), name: "mr", color: .darkGray)
         
     }
     
