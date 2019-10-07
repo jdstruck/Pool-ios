@@ -16,7 +16,7 @@ class Ball: SKShapeNode {
     override init() {
         super.init()
         //position = CGPoint(x: 0, y: -400)
-        physicsBody = SKPhysicsBody(circleOfRadius: 30)
+        physicsBody = SKPhysicsBody(circleOfRadius: 40)
         physicsBody?.affectedByGravity = false
         physicsBody?.allowsRotation = true
         physicsBody?.isDynamic = true
@@ -31,4 +31,5 @@ class Ball: SKShapeNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
