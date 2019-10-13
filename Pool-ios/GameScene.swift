@@ -28,12 +28,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var bumperFrame : CGRect?
     private var selectedNode = SKShapeNode()
     let ballRadius: CGFloat = 40
-    let pocketRadius: CGFloat = 70
+    let pocketRadius: CGFloat = 60
     var selectedNodeVelocity = CGVector(dx: 0.0, dy: 0.0)
     var selectedNodeTouchesMovedCount = 0
     let linearDamping = CGFloat(0.8)
     
     override func didMove(to view: SKView) {
+        self.physicsWorld.contactDelegate = self
         print("nativeBounds", UIScreen.main.nativeBounds, "bounds", UIScreen.main.bounds, "nativeScale", UIScreen.main.nativeScale, "scale", UIScreen.main.scale)
 //        print("bounds", UIScreen.main.bounds)
 //        print("nativeScale", UIScreen.main.nativeScale)
@@ -43,7 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.screenWidth = abs(screenSize.width)
         self.screenHeight = abs(screenSize.height)
         print("screenSize", screenSize, "screenWidth/Height", screenSize.width, screenSize.height)
-        self.physicsWorld.contactDelegate = self
+        
         let bumperFrame = CGRect(x:-screenSize.width/2, y:screenSize.height/2, width: screenWidth, height: screenHeight)
         physicsBody = SKPhysicsBody(edgeLoopFrom: bumperFrame )
         physicsBody!.categoryBitMask = nodeCategoryMask
@@ -52,6 +53,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupBallNodes()
 
     }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        let bodyA = contact.bodyA.node
+        let bodyB = contact.bodyB.node
+        print("Collision")
+        print("BodyA", contact.bodyA.node?.name)
+        print("BodyB", bodyB!.name)
+        print("BodyA velocity", bodyA!.physicsBody!.velocity)
+        //print("BodyB velocity", bodyB!.physicsBody!.velocity)
+        //bodyB!.physicsBody!.velocity = CGVector(dx:0,dy:0)
+        let bodyBVelocity = bodyB!.physicsBody!.velocity
+        bodyB!.physicsBody!.isDynamic = false
+        let dx = bodyB!.position.x
+        print("BodyB velocity", bodyBVelocity)
+        let removeBall = SKAction.sequence([.wait(forDuration: 0.01),
+                                            .removeFromParent()])
+        bodyB?.run(.repeatForever(.move(by: bodyBVelocity, duration: 0.01)))
+        bodyB?.run(removeBall)
+        
+        //destroy(ball: contact.bodyB.node!)
+    }
+    
     func viewSizeInLocalCoordinates() -> CGSize {
         let reference = CGPoint(x: view!.bounds.maxX, y: view!.bounds.maxY)
         let bottomLeft = convertPoint(fromView: .zero)
@@ -61,25 +84,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupPocketNodes() {
-        let cornerPocketsOffset = CGFloat(0)
-        let sidePocketsOffset = CGFloat(40)
+        let cornerPocketsOffset = CGFloat(10)
+        let sidePocketsOffset = CGFloat(20)
         let x = screenWidth/2 - cornerPocketsOffset
         let y = screenHeight/2 - cornerPocketsOffset
-        createPocket(atPoint: CGPoint(x: -x, y: y), name: "ul", color: .darkGray)
-        createPocket(atPoint: CGPoint(x: x, y: y), name: "ur", color: .darkGray)
-        createPocket(atPoint: CGPoint(x: -x, y: -y), name: "ll", color: .darkGray)
-        createPocket(atPoint: CGPoint(x: x, y: -y), name: "lr", color: .darkGray)
-        createPocket(atPoint: CGPoint(x: -x-sidePocketsOffset, y: 0), name: "ml", color: .darkGray)
-        createPocket(atPoint: CGPoint(x: x+sidePocketsOffset, y: 0), name: "mr", color: .darkGray)
+        createPocket(atPoint: CGPoint(x: -x, y: y), name: "ul", color: .darkGray, radius: pocketRadius)
+        createPocket(atPoint: CGPoint(x: x, y: y), name: "ur", color: .darkGray, radius: pocketRadius)
+        createPocket(atPoint: CGPoint(x: -x, y: -y), name: "ll", color: .darkGray, radius: pocketRadius)
+        createPocket(atPoint: CGPoint(x: x, y: -y), name: "lr", color: .darkGray, radius: pocketRadius)
+        createPocket(atPoint: CGPoint(x: -x-sidePocketsOffset, y: 0), name: "ml", color: .darkGray, radius: pocketRadius-5)
+        createPocket(atPoint: CGPoint(x: x+sidePocketsOffset, y: 0), name: "mr", color: .darkGray, radius: pocketRadius-5)
         
     }
     
-    func createPocket(atPoint pos : CGPoint, name : String, color : UIColor) {
-        let pocket = Pocket(circleOfRadius: pocketRadius)
+    func createPocket(atPoint pos : CGPoint, name : String, color : UIColor, radius : CGFloat) {
+        let pocket = Pocket(circleOfRadius: radius)
+        pocket.initializeBall(radius: radius, name: name, color: color, position: pos)
     
-        pocket.name = name
-        pocket.fillColor = color
-        pocket.position = pos
+//        pocket.name = name
+//        pocket.fillColor = color
+//        pocket.position = pos
         
         addChild(pocket)
     }
@@ -173,14 +197,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
             
-            let location = t.location(in: self)
-            //print(d)
+            let touchLocation = t.location(in: self)
+            
             //print(convertPoint(fromView: location))
-            let previousLocation = t.previousLocation(in: self)
+            let previousTouchLocation = t.previousLocation(in: self)
             let touchedNode = selectedNode
-            selectedNodeVelocity = updateNodeVelocity(timeInterval:0.05, touchedNode: touchedNode, location: location, previousLocation: previousLocation)
+            selectedNodeVelocity = updateNodeVelocity(timeInterval:0.05, touchedNode: touchedNode, location: touchLocation, previousLocation: previousTouchLocation)
+            print("touchedNode velocity", selectedNodeVelocity)
             touchedNode.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
-            touchedNode.position = location
+            touchedNode.position = touchLocation
             selectedNodeTouchesMovedCount += 1
         }
     }
@@ -215,7 +240,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         selectedNode = SKShapeNode()
         print(selectedNodeTouchesMovedCount)
         selectedNodeTouchesMovedCount = 0
-        selectedNodeVelocity = CGVector()
+        //selectedNodeVelocity = CGVector()
     }
     
     override func update(_ currentTime: TimeInterval) {
