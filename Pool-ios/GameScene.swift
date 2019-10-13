@@ -67,9 +67,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bodyB!.physicsBody!.isDynamic = false
         let dx = bodyB!.position.x
         print("BodyB velocity", bodyBVelocity)
-        let removeBall = SKAction.sequence([.wait(forDuration: 0.5),
+        let removeBall = SKAction.sequence([.wait(forDuration: 0.01),
                                             .removeFromParent()])
-        bodyB?.run(.repeatForever(.move(by: bodyBVelocity, duration: 0.5)))
+        bodyB?.run(.repeatForever(.move(by: bodyBVelocity, duration: 0.01)))
         bodyB?.run(removeBall)
         
         //destroy(ball: contact.bodyB.node!)
