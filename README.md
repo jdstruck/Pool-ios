@@ -6,7 +6,7 @@ resources are generated programmatically using SKShapeNode(point:count:).
 ## Project Goals
 For this implementation, my goals were as follows:
 - [x] Generate all shapes programatically
-- [ ] 
+- [ ] Working cue
 - [ ] Start screen
 - [ ] Reset game
 
@@ -26,18 +26,19 @@ Note: this app started off as an Asteroids knock-off, so early commits reference
 * Sept 26
   * Attempt to make a start screen
     
-* Sept 27
-  * switch to Pool idea instead of asteroids
-    
-* Sept 29
-  *
-
-* Sept 30
-  *
-  *
-
-* Oct 1
-  *
-
-* Oct 2
-  *
+* Oct 4
+  * switch to Pool idea instead of asteroids  
+  
+* Oct 5
+  * Enable better control over ball movement and touch handling
+  
+* Oct 6
+  * Smooth out touchMoved/Ended action
+  
+* Oct 7
+  * Sales walls and pockets based on device
+  * Refactor, add colors to balls
+  
+* Oct 11-13
+  * Get pockets working
+  * Add cue
