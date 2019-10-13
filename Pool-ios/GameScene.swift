@@ -58,21 +58,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let bodyA = contact.bodyA.node
         let bodyB = contact.bodyB.node
         print("Collision")
-        print("BodyA", contact.bodyA.node?.name)
-        print("BodyB", bodyB!.name)
+        //print("BodyA", contact.bodyA.node?.name)
+        //print("BodyB", bodyB!.name)
         print("BodyA velocity", bodyA!.physicsBody!.velocity)
         //print("BodyB velocity", bodyB!.physicsBody!.velocity)
         //bodyB!.physicsBody!.velocity = CGVector(dx:0,dy:0)
         let bodyBVelocity = bodyB!.physicsBody!.velocity
         bodyB!.physicsBody!.isDynamic = false
-        let dx = bodyB!.position.x
+        //let dx = bodyB!.position.x
         print("BodyB velocity", bodyBVelocity)
+        
         let removeBall = SKAction.sequence([.wait(forDuration: 0.01),
                                             .removeFromParent()])
-        bodyB?.run(.repeatForever(.move(by: bodyBVelocity, duration: 0.01)))
+        //bodyB?.run(.repeatForever(.move(by: bodyBVelocity, duration: 0.01)))
         bodyB?.run(removeBall)
-        
         //destroy(ball: contact.bodyB.node!)
+        if (bodyB!.name == "0") {
+            createBall(atPoint: CGPoint(x: 0, y: -400), name: "0", color: .white)
+        }
     }
     
     func viewSizeInLocalCoordinates() -> CGSize {
@@ -159,26 +162,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(ball)
     }
     
-
-    
-    func collisionBetween(ball: SKNode, object: SKNode) {
-        if object.name == "good" {
-            destroy(ball: ball)
-        } else if object.name == "bad" {
-            destroy(ball: ball)
-        }
-    }
-
-    func destroy(ball: SKNode) {
-        ball.removeFromParent()
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
-            print("touchesBegan touch count", t.tapCount)
+            //print("touchesBegan touch count", t.tapCount)
             let location = t.location(in: self)
             print(location)
-            print("nativeBounds", UIScreen.main.nativeBounds.height, "bounds", UIScreen.main.bounds, "nativeScale", UIScreen.main.nativeScale, "scale", UIScreen.main.scale)
+            //print("nativeBounds", UIScreen.main.nativeBounds.height, "bounds", UIScreen.main.bounds, "nativeScale", UIScreen.main.nativeScale, "scale", UIScreen.main.scale)
             //print(height)
             //let previousLocation = t.previousLocation(in: self)
             self.view?.isPaused = false
@@ -203,7 +192,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let previousTouchLocation = t.previousLocation(in: self)
             let touchedNode = selectedNode
             selectedNodeVelocity = updateNodeVelocity(timeInterval:0.05, touchedNode: touchedNode, location: touchLocation, previousLocation: previousTouchLocation)
-            print("touchedNode velocity", selectedNodeVelocity)
+            //print("touchedNode velocity", selectedNodeVelocity)
             touchedNode.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
             touchedNode.position = touchLocation
             selectedNodeTouchesMovedCount += 1
