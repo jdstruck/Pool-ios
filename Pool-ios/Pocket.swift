@@ -16,16 +16,6 @@ class Pocket: SKShapeNode {
     
     override init() {
         super.init()
-        //position = CGPoint(x: 0, y: -400)
-//        physicsBody = SKPhysicsBody(circleOfRadius: 30)
-//        physicsBody?.affectedByGravity = false
-//        physicsBody?.allowsRotation = false
-//        physicsBody?.isDynamic = false
-//        physicsBody?.restitution = 1.0
-//        physicsBody?.linearDamping = CGFloat(0.8)
-//        physicsBody?.collisionBitMask = nodeCategoryMask // 0b0001
-//        physicsBody?.contactTestBitMask = nodeCategoryMask
-//        physicsBody?.categoryBitMask = nodeCategoryMask // 0b0001
                 
     }
     func initializeBall(radius: CGFloat, name: String, color: UIColor, position: CGPoint) {
