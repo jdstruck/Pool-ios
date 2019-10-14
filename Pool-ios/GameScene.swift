@@ -61,12 +61,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let bodyB = contact.bodyB.node
         let bodyBVelocity = bodyB!.physicsBody!.velocity
         bodyB!.physicsBody!.isDynamic = false
+        
+        // Remove ball upon contact with pocket
         let removeBall = SKAction.sequence([.wait(forDuration: 0.01),
                                             .removeFromParent()])
         bodyB?.run(removeBall)
+        
+        // If cue ball, regenerate cue ball
         if (bodyB!.name == "0") {
             generateCueBall()
-        } else if bodyB!.name == "8" {
+            swapPlayers()
+        }
+        
+        // If 8-ball, reset game
+        if bodyB!.name == "8" {
             for b in self.children {
                 if b is Ball {
                     b.removeFromParent()
@@ -75,6 +83,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             cueBall?.removeFromParent()
             setupBallNodes()
         }
+    }
+    
+    func swapPlayers() {
+//        if self.currentPlayer.isEqual(self.player1) {
+//            self.currentPlayer = self.player2
+//        } else {
+//            self.currentPlayer = self.player1
+//        }
     }
     
     func viewSizeInLocalCoordinates() -> CGSize {
