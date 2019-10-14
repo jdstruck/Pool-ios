@@ -34,10 +34,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
-//        print("nativeBounds", UIScreen.main.nativeBounds, "bounds", UIScreen.main.bounds, "nativeScale", UIScreen.main.nativeScale, "scale", UIScreen.main.scale)
-//        print("bounds", UIScreen.main.bounds)
-//        print("nativeScale", UIScreen.main.nativeScale)
-//        print("scale", UIScreen.main.scale)
         self.screenSize = viewSizeInLocalCoordinates()
         self.view?.isPaused = false
         self.screenWidth = abs(screenSize.width)
