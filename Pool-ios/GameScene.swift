@@ -34,7 +34,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
-        print("nativeBounds", UIScreen.main.nativeBounds, "bounds", UIScreen.main.bounds, "nativeScale", UIScreen.main.nativeScale, "scale", UIScreen.main.scale)
+//        print("nativeBounds", UIScreen.main.nativeBounds, "bounds", UIScreen.main.bounds, "nativeScale", UIScreen.main.nativeScale, "scale", UIScreen.main.scale)
 //        print("bounds", UIScreen.main.bounds)
 //        print("nativeScale", UIScreen.main.nativeScale)
 //        print("scale", UIScreen.main.scale)
@@ -63,24 +63,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        print("BodyB", bodyB!.name)
 //        print("BodyA velocity", bodyA!.physicsBody!.velocity)
 //        print("BodyB velocity", bodyB!.physicsBody!.velocity)
-//        bodyB!.physicsBody!.velocity = CGVector(dx:0,dy:0)
         let bodyBVelocity = bodyB!.physicsBody!.velocity
         bodyB!.physicsBody!.isDynamic = false
-//        let dx = bodyB!.position.x
-        print("BodyB velocity", bodyBVelocity)
+//        print("BodyB velocity", bodyBVelocity)
         
         let removeBall = SKAction.sequence([.wait(forDuration: 0.01),
                                             .removeFromParent()])
         bodyB?.run(removeBall)
-        print("child count", self.children.count)
-//        destroy(ball: contact.bodyB.node!)
+//        print("child count", self.children.count)
         if (bodyB!.name == "0") {
-//            self.cueBall = createBall(atPoint: CGPoint(x: 0, y: -400),
-//                                      name: "0",
-//                                      color: .white,
-//                                      type: .NONE)
-            resetCueBall()
-//            addChild(self.cueBall!)
+            generateCueBall()
         } else if bodyB!.name == "8" {
             for b in self.children {
                 if b is Ball {
@@ -120,7 +112,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(pocket)
     }
     
-    func resetCueBall() {
+    func generateCueBall() {
         self.cueBall = createBall(atPoint: CGPoint(x: 0, y: -400),
                                   name: "0",
                                   color: .white,
@@ -129,15 +121,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                        .move(to: CGPoint(x: 0, y: -400), duration: 0)])
         self.cueBall!.run(reset)
         addChild(self.cueBall!)
-//        self.cueBall!.position = CGPoint(x: 0, y: -400)
     }
     
     func setupBallNodes() {
-
         self.poolBallArray.removeAll()
-        
         let colors = [.yellow as UIColor, .blue, .red, .purple, .orange, .green, .brown]
-            
+        
+        // Generate cue ball
+        generateCueBall()
+        
+        // Generate 8-ball
         self.eightBall = createBall(atPoint: CGPoint(x: 0, y: 0),
                                       name: String(8),
                                       color: .black,
@@ -159,18 +152,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                                  color: color,
                                                  type: .STRIPE))
         }
-        resetCueBall()
-        resetBallPositions()
         
-//        for ball in poolBallArray {
-//            print(ball.name!)
-//        }
+        resetBallPositions()
     }
     
     func resetBallPositions() {
 //        print("running reset ball properties")
         let sp : Int = Int(self.ballRadius*2)-10
-        let poolBallProperties = [  //(color: .white as UIColor, type: "solid")
+        let poolBallProperties = [
                   CGPoint(x: 0,             y: sp*2)
                 , CGPoint(x: -(sp/2),       y: sp*3)
                 , CGPoint(x: sp/2,          y: sp*3)
@@ -193,7 +182,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.run(.move(to: p, duration: 0))
             addChild(ball)
         }
-//        resetCueBall()
     }
     
     func createBall(atPoint pos : CGPoint, name : String, color : UIColor, type: Ball.BallType) -> Ball {
@@ -202,8 +190,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.fillColor = color
         ball.ballType = type
         ball.position = pos
-        
-//        addChild(ball)
         return ball
     }
     
@@ -211,10 +197,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for t in touches {
 //            print("touchesBegan touch count", t.tapCount)
             let location = t.location(in: self)
-            print(location)
+//            print(location)
 //            print("nativeBounds", UIScreen.main.nativeBounds.height, "bounds", UIScreen.main.bounds, "nativeScale", UIScreen.main.nativeScale, "scale", UIScreen.main.scale)
 //            print(height)
-//            let previousLocation = t.previousLocation(in: self)
             self.view?.isPaused = false
             let touchedNode = self.atPoint(location)
 //            print("touchesBegan node", t)
@@ -271,7 +256,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     func touchUp(atPoint pos : CGPoint) {
         selectedNode = SKShapeNode()
-        print(selectedNodeTouchesMovedCount)
+//        print(selectedNodeTouchesMovedCount)
         selectedNodeTouchesMovedCount = 0
 //        selectedNodeVelocity = CGVector()
     }
