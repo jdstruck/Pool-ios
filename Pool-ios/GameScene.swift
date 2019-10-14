@@ -44,7 +44,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view?.isPaused = false
         self.screenWidth = abs(screenSize.width)
         self.screenHeight = abs(screenSize.height)
-//        print("screenSize", screenSize, "screenWidth/Height", screenSize.width, screenSize.height)
         bumperFrame = CGRect(x:-screenSize.width/2,
                              y:screenSize.height/2,
                              width: screenWidth,
@@ -60,19 +59,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         let bodyA = contact.bodyA.node
         let bodyB = contact.bodyB.node
-//        print("Collision")
-//        print("BodyA", contact.bodyA.node?.name)
-//        print("BodyB", bodyB!.name)
-//        print("BodyA velocity", bodyA!.physicsBody!.velocity)
-//        print("BodyB velocity", bodyB!.physicsBody!.velocity)
         let bodyBVelocity = bodyB!.physicsBody!.velocity
         bodyB!.physicsBody!.isDynamic = false
-//        print("BodyB velocity", bodyBVelocity)
-        
         let removeBall = SKAction.sequence([.wait(forDuration: 0.01),
                                             .removeFromParent()])
         bodyB?.run(removeBall)
-//        print("child count", self.children.count)
         if (bodyB!.name == "0") {
             generateCueBall()
         } else if bodyB!.name == "8" {
@@ -159,7 +150,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func resetBallPositions() {
-//        print("running reset ball properties")
         let sp : Int = Int(self.ballRadius*2)-10
         let poolBallProperties = [
                   CGPoint(x: 0,             y: sp*2)
@@ -197,14 +187,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
-//            print("touchesBegan touch count", t.tapCount)
             let location = t.location(in: self)
-//            print(location)
-//            print("nativeBounds", UIScreen.main.nativeBounds.height, "bounds", UIScreen.main.bounds, "nativeScale", UIScreen.main.nativeScale, "scale", UIScreen.main.scale)
-//            print(height)
             self.view?.isPaused = false
             let touchedNode = self.atPoint(location)
-//            print("touchesBegan node", t)
             if (touchedNode is Ball) {
                 touchedNode.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
                 selectedNode = touchedNode as! SKShapeNode
@@ -216,14 +201,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
-            
             let touchLocation = t.location(in: self)
-            
-//            print(convertPoint(fromView: location))
             let previousTouchLocation = t.previousLocation(in: self)
             let touchedNode = selectedNode
             selectedNodeVelocity = updateNodeVelocity(timeInterval:0.05, touchedNode: touchedNode, location: touchLocation, previousLocation: previousTouchLocation)
-//            print("touchedNode velocity", selectedNodeVelocity)
             touchedNode.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
             touchedNode.position = touchLocation
             selectedNodeTouchesMovedCount += 1
@@ -243,10 +224,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
-//            let location = t.location(in: self)
-//            let previousLocation = t.previousLocation(in: self)
             let touchedNode = selectedNode
-            if (touchedNode is Ball) { //Int(touchedNode.name!)! >= 0  || touchedNode.name == "num") {
+            if (touchedNode is Ball) {
                 touchedNode.physicsBody!.velocity = selectedNodeVelocity
                 self.touchUp(atPoint: t.location(in: self))
             }
@@ -258,9 +237,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     func touchUp(atPoint pos : CGPoint) {
         selectedNode = SKShapeNode()
-//        print(selectedNodeTouchesMovedCount)
         selectedNodeTouchesMovedCount = 0
-//        selectedNodeVelocity = CGVector()
     }
     
     override func update(_ currentTime: TimeInterval) {
