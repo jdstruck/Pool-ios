@@ -19,8 +19,7 @@ For this implementation, my goals were as follows:
 - [ ] Correct (or better, configurable) ball order
 - [ ] Bumpers
 
-This was really fun to make, and as you can see, there is a big list of items
-left to polish the game to where it looks 
+This was really fun to make, and while the game works basically as advertised, there are a number of future additions I would like to continue to work on to make this a more polished game.
 
 ## Daily Log
 
