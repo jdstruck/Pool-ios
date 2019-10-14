@@ -4,7 +4,7 @@ Play pool from your iOS device. Implemeneted in Swift using SpriteKit. All
 resources are generated programmatically using SKShapeNode(point:count:).
 ## Project Goals
 For this implementation, my goals were as follows:
-### Immediate
+### Current
 - [x] Generate shapes programatically
 - [x] Looks generally like pool, has somewhat realistic action
 - [x] Game reset at end of game (i.e. no colored balls
