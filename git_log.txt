@@ -1,0 +1,351 @@
+commit 44a560868c78639d30d8a114b417580424a6198b
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 13 22:19:26 2019 -0400
+
+    refactor/clean up
+
+ Pool-ios/GameScene.swift          | 43 +++++++++++++--------------------------
+ Pool-ios/GameViewController.swift |  4 ++--
+ README.md                         | 31 +++++++++++++++++++---------
+ 3 files changed, 37 insertions(+), 41 deletions(-)
+
+commit e99b846c485918f59bd842520cdc920d84cf6c59
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 13 21:58:49 2019 -0400
+
+    game reset on pocket 8 and at end of game
+
+ Pool-ios/Ball.swift      |   2 +
+ Pool-ios/GameScene.swift | 198 ++++++++++++++++++++++++++++-------------------
+ Pool-ios/Pocket.swift    |   2 +-
+ 3 files changed, 123 insertions(+), 79 deletions(-)
+
+commit 19de9f39cd011de4f9ae1a116dba4976bdc10cc1
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 13 16:51:03 2019 -0400
+
+    update README
+
+ Pool-ios/GameScene.swift |  4 ++++
+ Pool-ios/Info.plist      |  2 ++
+ README.md                | 12 ++++++++----
+ 3 files changed, 14 insertions(+), 4 deletions(-)
+
+commit 523355ee448346841feb64ea176ae6d512ab714b
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 13 12:19:53 2019 -0400
+
+    cue returned to head spot after scratch
+
+ Pool-ios/GameScene.swift | 33 +++++++++++----------------------
+ 1 file changed, 11 insertions(+), 22 deletions(-)
+
+commit 83234c4c0fffa27d336ad3f4fa2de2fffcf3edfa
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 13 12:00:40 2019 -0400
+
+    refactor
+
+ Pool-ios/Pocket.swift | 10 ----------
+ 1 file changed, 10 deletions(-)
+
+commit f73f09deae7c8e246017465132fc6fb0826ecf01
+Merge: c652dc6 4dffee8
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 13 11:49:56 2019 -0400
+
+    Merge branch 'dev'
+
+commit 4dffee815c150f93dc5d492bd194b813bda623dd
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 13 10:27:03 2019 -0400
+
+    Update README.md
+
+ README.md | 33 +++++++++++++++++----------------
+ 1 file changed, 17 insertions(+), 16 deletions(-)
+
+commit c652dc6154aff0bd53ed8c7d913fcf421ec7eece
+Merge: 595583f 4e74243
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 13 11:48:10 2019 -0400
+
+    Merge branch 'dev'
+
+commit 4e74243326b7853c429ec9255602d745977b3e0b
+Merge: 145c519 701c95e
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 13 11:47:51 2019 -0400
+
+    Merge branch 'master' into dev
+
+commit 145c51995b0b3c366d71b684b35eddbb7a11dbcf
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 13 11:47:42 2019 -0400
+
+    pockets work better
+
+ Pool-ios/GameScene.swift | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit ef481ed55d03eb011d3a971c3c023dfe97f0e23c
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Fri Oct 11 10:31:39 2019 -0400
+
+    Update README.md
+
+ README.md | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
+
+commit 595583f9c9610145016e1aba6e0044096f9ead7e
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 13 10:27:03 2019 -0400
+
+    Update README.md
+
+ README.md | 33 +++++++++++++++++----------------
+ 1 file changed, 17 insertions(+), 16 deletions(-)
+
+commit 701c95e29d596e7fb42262650af0fc0f633c1fe3
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Fri Oct 11 10:31:39 2019 -0400
+
+    Update README.md
+
+ README.md | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
+
+commit 427fa4976e3592c4c98c024e712fb72e7e758fce
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Fri Oct 11 09:57:09 2019 -0400
+
+    make it better
+
+ Pool-ios/GameScene.swift | 67 +++++++++++++++++++++++++++++++++---------------
+ Pool-ios/Pocket.swift    | 18 +++++++++++--
+ 2 files changed, 62 insertions(+), 23 deletions(-)
+
+commit 766865398a1b6768f558cc83622d08e5575e5658
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Mon Oct 7 13:55:23 2019 -0400
+
+    walls and pockets scale per device
+
+ Pool-ios/GameScene.swift | 25 +++++++++++++++----------
+ Pool-ios/Pocket.swift    |  2 +-
+ 2 files changed, 16 insertions(+), 11 deletions(-)
+
+commit 20e9f84aa8865d7e741177a88d8e0fddd195d046
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Mon Oct 7 10:40:39 2019 -0400
+
+    device dimensions
+
+ Pool-ios/GameScene.swift | 31 +++++++++++++++++++++----------
+ 1 file changed, 21 insertions(+), 10 deletions(-)
+
+commit f0e632ea7262f39049b99391f0ae2c04a6e55cc9
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Mon Oct 7 00:00:59 2019 -0400
+
+    refactor, different colors, start in on pockets
+
+ Pool-ios/Ball.swift      |   3 +-
+ Pool-ios/GameScene.swift | 158 +++++++++++++++++++++++++----------------------
+ Pool-ios/Pocket.swift    |  51 +++++++++++++++
+ 3 files changed, 136 insertions(+), 76 deletions(-)
+
+commit 19984cf7fa6cb5e7c01818cdf386982360936ee8
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 6 12:58:45 2019 -0400
+
+    move shape to Ball class, props only, no touch handling
+
+ Pool-ios/Ball.swift      | 34 ++++++++++++++++++++++++++++++++++
+ Pool-ios/GameScene.swift | 44 ++++++++++++++++++++++----------------------
+ 2 files changed, 56 insertions(+), 22 deletions(-)
+
+commit e2ed8e0c7612f170a3ce0803868ce2f05f72a558
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 6 12:46:00 2019 -0400
+
+    cleanup
+
+ Pool-ios/GameScene.swift          | 14 +++++++++-----
+ Pool-ios/GameViewController.swift |  2 +-
+ 2 files changed, 10 insertions(+), 6 deletions(-)
+
+commit bb2ec8d8bc4f3d96d83684aa409595ba95bfb7d8
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 6 12:15:40 2019 -0400
+
+    cleanup
+
+ Pool-ios/GameScene.swift | 129 +++++------------------------------------------
+ 1 file changed, 13 insertions(+), 116 deletions(-)
+
+commit e94e009772f5f02af866b6f290b91922e9e8ac7d
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sun Oct 6 12:05:40 2019 -0400
+
+    smooth out touchMoved/Ended action
+
+ Pool-ios/GameScene.swift | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
+
+commit eb4133a79cb504e33d569e045475429c75a4ca62
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Sat Oct 5 21:45:46 2019 -0400
+
+    enable better control over ball movement/touch handling
+
+ Pool-ios/GameScene.swift | 189 +++++++++++++++++++++++++++++------------------
+ 1 file changed, 119 insertions(+), 70 deletions(-)
+
+commit e41376727f9452e643291e04462a01304f6a4e2d
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Fri Oct 4 20:41:38 2019 -0400
+
+    pool swap
+
+ .../AppIcon.appiconset/Contents.json               |  98 ----
+ Asteriods/Assets.xcassets/Contents.json            |   6 -
+ Asteriods/Asteroid.swift                           |  15 -
+ Asteriods/GameManager.swift                        |  13 -
+ Asteriods/GameScene.swift                          | 196 -------
+ Asteroids.xcodeproj/project.pbxproj                | 611 ---------------------
+ .../project.xcworkspace/contents.xcworkspacedata   |   7 -
+ .../xcshareddata/IDEWorkspaceChecks.plist          |   8 -
+ .../jds.xcuserdatad/UserInterfaceState.xcuserstate | Bin 47044 -> 0 bytes
+ .../xcdebugger/Breakpoints_v2.xcbkptlist           |  22 -
+ .../xcschemes/xcschememanagement.plist             |  19 -
+ {Asteriods => Pool-ios}/Actions.sks                | Bin
+ {Asteriods => Pool-ios}/AppDelegate.swift          |   4 +-
+ .../Base.lproj/LaunchScreen.storyboard             |   0
+ {Asteriods => Pool-ios}/Base.lproj/Main.storyboard |  12 +-
+ {Asteriods => Pool-ios}/GameScene.sks              | Bin
+ Pool-ios/GameScene.swift                           | 249 +++++++++
+ {Asteriods => Pool-ios}/GameViewController.swift   |   2 -
+ {Asteriods => Pool-ios}/Info.plist                 |   0
+ {AsteriodsTests => Pool-iosTests}/Info.plist       |   0
+ .../Pool_iosTests.swift                            |  10 +-
+ {AsteriodsUITests => Pool-iosUITests}/Info.plist   |   0
+ .../Pool_iosUITests.swift                          |   8 +-
+ 23 files changed, 265 insertions(+), 1015 deletions(-)
+
+commit 5d69c99594133e00009f1cef76892f18e9d67bc1
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Thu Sep 26 09:27:50 2019 -0400
+
+    start screen
+
+ Asteriods/Base.lproj/Main.storyboard               |  22 -------
+ Asteriods/GameManager.swift                        |  13 ++++
+ Asteriods/GameScene.swift                          |  69 ++++++++++++++++++---
+ Asteriods/GameViewController.swift                 |   9 ---
+ Asteroids.xcodeproj/project.pbxproj                |   4 ++
+ .../jds.xcuserdatad/UserInterfaceState.xcuserstate | Bin 36554 -> 47044 bytes
+ .../xcdebugger/Breakpoints_v2.xcbkptlist           |  22 +++++++
+ 7 files changed, 98 insertions(+), 41 deletions(-)
+
+commit d907c3ec712fe7fcbb756e113e6480db7ba970c1
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Wed Sep 25 23:35:30 2019 -0400
+
+    play around with buttons and other things
+
+ Asteriods/Asteroid.swift                           |  15 +++++++++
+ Asteriods/Base.lproj/Main.storyboard               |  34 ++++++++++++++++++---
+ Asteriods/GameScene.swift                          |  11 +++++--
+ Asteriods/GameViewController.swift                 |  11 +++++++
+ Asteroids.xcodeproj/project.pbxproj                |   4 +++
+ .../jds.xcuserdatad/UserInterfaceState.xcuserstate | Bin 29127 -> 36554 bytes
+ .../xcschemes/xcschememanagement.plist             |   5 +++
+ 7 files changed, 72 insertions(+), 8 deletions(-)
+
+commit 6d85e77d75faab2629a8367a342f8307d9f060c0
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Tue Sep 24 20:56:34 2019 -0400
+
+    (temporarily) change polygon start position to touch position
+
+ Asteriods/GameScene.swift                           |   6 +++---
+ .../jds.xcuserdatad/UserInterfaceState.xcuserstate  | Bin 29148 -> 29127 bytes
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+commit 101b5a9633d0f77378c6b591b48e3a226435aa6a
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Tue Sep 24 20:38:16 2019 -0400
+
+    better random polygons, rotate & move randomly
+
+ Asteriods/GameScene.swift                          |  39 ++++++++-------------
+ .../jds.xcuserdatad/UserInterfaceState.xcuserstate | Bin 28780 -> 29148 bytes
+ 2 files changed, 15 insertions(+), 24 deletions(-)
+
+commit 7cd643bc55ab44c32c25a313397c62191dafb7fc
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Tue Sep 24 18:45:24 2019 -0400
+
+    randomly generated shapes, random rotation
+
+ Asteriods/GameScene.swift                          | 100 +++++++++++++++------
+ .../jds.xcuserdatad/UserInterfaceState.xcuserstate | Bin 28867 -> 28780 bytes
+ 2 files changed, 75 insertions(+), 25 deletions(-)
+
+commit 15b667336c72f29d9fd27aeda9c6384120aa89dc
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Tue Sep 24 13:07:20 2019 -0400
+
+    Extricate Hello World
+
+ Asteriods/GameScene.sks                             | Bin 4694 -> 4056 bytes
+ Asteriods/GameScene.swift                           |  14 +++++++-------
+ .../jds.xcuserdatad/UserInterfaceState.xcuserstate  | Bin 27002 -> 28867 bytes
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+
+commit d954474453b5cb6edf123ea2767c8cd6aca02751
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Tue Sep 24 13:03:02 2019 -0400
+
+    initial commit
+
+ .../jds.xcuserdatad/UserInterfaceState.xcuserstate | Bin 19926 -> 27002 bytes
+ README.md                                          |  42 ++++++++++++++++++++-
+ 2 files changed, 41 insertions(+), 1 deletion(-)
+
+commit 513ca3cc5dbb4032d30bf6094740e39e899532c9
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Tue Sep 24 12:52:47 2019 -0400
+
+    initial commit
+
+ Asteriods/Actions.sks                              | Bin 0 -> 1892 bytes
+ Asteriods/AppDelegate.swift                        |  41 ++
+ .../AppIcon.appiconset/Contents.json               |  98 ++++
+ Asteriods/Assets.xcassets/Contents.json            |   6 +
+ Asteriods/Base.lproj/LaunchScreen.storyboard       |  25 +
+ Asteriods/Base.lproj/Main.storyboard               |  24 +
+ Asteriods/GameScene.sks                            | Bin 0 -> 4694 bytes
+ Asteriods/GameScene.swift                          | 101 ++++
+ Asteriods/GameViewController.swift                 |  50 ++
+ Asteriods/Info.plist                               |  47 ++
+ AsteriodsTests/AsteriodsTests.swift                |  34 ++
+ AsteriodsTests/Info.plist                          |  22 +
+ AsteriodsUITests/AsteriodsUITests.swift            |  43 ++
+ AsteriodsUITests/Info.plist                        |  22 +
+ Asteroids.xcodeproj/project.pbxproj                | 603 +++++++++++++++++++++
+ .../project.xcworkspace/contents.xcworkspacedata   |   7 +
+ .../xcshareddata/IDEWorkspaceChecks.plist          |   8 +
+ .../jds.xcuserdatad/UserInterfaceState.xcuserstate | Bin 0 -> 19926 bytes
+ .../xcschemes/xcschememanagement.plist             |  14 +
+ 19 files changed, 1145 insertions(+)
+
+commit c958c6e3ebbbaa502ac7db3d35266599c5070bcf
+Author: Jesse Struck <jdstruck@gmail.com>
+Date:   Tue Sep 24 12:44:41 2019 -0400
+
+    Initial commit
+
+ README.md | 1 +
+ 1 file changed, 1 insertion(+)
