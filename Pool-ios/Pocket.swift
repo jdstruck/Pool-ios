@@ -22,7 +22,7 @@ class Pocket: SKShapeNode {
         self.name = name
         self.fillColor = color
         self.position = position
-        physicsBody = SKPhysicsBody(circleOfRadius: radius/2)
+        physicsBody = SKPhysicsBody(circleOfRadius: radius/2-15)
         physicsBody?.affectedByGravity = false
         physicsBody?.allowsRotation = false
         physicsBody?.isDynamic = false

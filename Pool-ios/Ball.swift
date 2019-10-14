@@ -12,6 +12,8 @@ import SpriteKit
 class Ball: SKShapeNode {
     let boundaryCategoryMask: UInt32 = 0x1 << 1
     let nodeCategoryMask: UInt32 = 0x1 << 2
+    enum BallType {case STRIPE, SOLID, NONE}
+    var ballType : BallType = BallType.NONE
     
     override init() {
         super.init()
