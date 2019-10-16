@@ -24,10 +24,10 @@
             </objects>
             <point key="canvasLocation" x="133" y="130"/>
         </scene>
-        <!--View Controller-->
+        <!--Start Screen-->
         <scene sceneID="dkJ-YR-1Jd">
             <objects>
-                <viewController id="vEr-2L-DA8" sceneMemberID="viewController">
+                <viewController title="Start Screen" id="vEr-2L-DA8" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LQ8-QT-ERn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -48,6 +48,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xhm-w4-g2S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="132" y="-544"/>
+        </scene>
+        <!--Game Over-->
+        <scene sceneID="FVd-5P-lN3">
+            <objects>
+                <viewController title="Game Over" id="aMA-bx-SxE" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0BV-15-lvC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="nYS-NW-cAs"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e06-LA-lve" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="132" y="775"/>
         </scene>
     </scenes>
 </document>
