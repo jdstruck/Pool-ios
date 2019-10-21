@@ -15,6 +15,16 @@
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wNG-tW-P1V">
+                                <rect key="frame" x="195" y="802" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <segue destination="aMA-bx-SxE" kind="show" identifier="game_over_segue" id="vqf-Z4-Jox"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
@@ -33,9 +43,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y6p-CH-jgJ">
-                                <rect key="frame" x="184" y="433" width="46" height="30"/>
+                                <rect key="frame" x="166" y="433" width="83" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="Start Game!"/>
                                 <connections>
                                     <segue destination="BV1-FR-VrT" kind="show" id="vaU-1r-NPW"/>
                                 </connections>
@@ -52,7 +62,7 @@
         <!--Game Over-->
         <scene sceneID="FVd-5P-lN3">
             <objects>
-                <viewController storyboardIdentifier="game_over" title="Game Over" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aMA-bx-SxE" customClass="GameOverViewController" customModule="Pool_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="game_over" title="Game Over" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aMA-bx-SxE" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0BV-15-lvC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -67,6 +77,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="nYS-NW-cAs"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Gyg-vx-z2M"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e06-LA-lve" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

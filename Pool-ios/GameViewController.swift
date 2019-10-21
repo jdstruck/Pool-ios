@@ -57,5 +57,6 @@ class GameViewController: UIViewController {
         print("game over")
         let gameOverViewController = storyboard!.instantiateViewController(withIdentifier: "game_over")
         self.navigationController?.pushViewController(gameOverViewController, animated: true)
+        self.performSegue(withIdentifier: "game_over_segue", sender:self)
     }
 }
