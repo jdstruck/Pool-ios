@@ -27,7 +27,7 @@
         <!--Start Screen-->
         <scene sceneID="dkJ-YR-1Jd">
             <objects>
-                <viewController title="Start Screen" id="vEr-2L-DA8" sceneMemberID="viewController">
+                <viewController title="Start Screen" id="vEr-2L-DA8" customClass="StartScreenViewController" customModule="Pool_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LQ8-QT-ERn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
