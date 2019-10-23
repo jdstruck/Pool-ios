@@ -59,4 +59,8 @@ class GameViewController: UIViewController {
         self.navigationController?.pushViewController(gameOverViewController, animated: true)
         self.performSegue(withIdentifier: "game_over_segue", sender:self)
     }
+
+    @IBAction func unwindToViewController(segue: UIStoryboardSegue) {
+        
+    }
 }
