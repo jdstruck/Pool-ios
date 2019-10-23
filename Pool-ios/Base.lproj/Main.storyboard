@@ -62,7 +62,7 @@
         <!--Game Over-->
         <scene sceneID="FVd-5P-lN3">
             <objects>
-                <viewController storyboardIdentifier="game_over" title="Game Over" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aMA-bx-SxE" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="game_over" title="Game Over" modalTransitionStyle="crossDissolve" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aMA-bx-SxE" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0BV-15-lvC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -74,9 +74,9 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mSJ-Lr-7Uc">
-                                <rect key="frame" x="184" y="262" width="46" height="30"/>
+                                <rect key="frame" x="172" y="262" width="70" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="Play again"/>
                                 <connections>
                                     <segue destination="eST-qJ-dAo" kind="unwind" unwindAction="unwindToViewControllerWithSegue:" id="h6Y-Jo-6kw"/>
                                 </connections>
