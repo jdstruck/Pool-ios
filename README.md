@@ -25,6 +25,18 @@ This was really fun to make, and while the game works basically as advertised, t
 
 Note: this app started off as an Asteroids knock-off, so early commits reference polygons, asteroids, etc.
 
+* Oct 25
+  * Add players, begin work on scoring
+
+* Oct 23
+  * Continue working on unwind game -> game over segue
+
+* Oct 21
+  * Work on segue unwind
+
+* Oct 18
+  * Continue working on Game Over scene
+
 * Oct 16
   * Add basic start screen with button
   * Fix full screen presentation in game after segue from start screen
