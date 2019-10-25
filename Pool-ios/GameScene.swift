@@ -32,16 +32,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let linearDamping = CGFloat(0.8)
     var poolBallArray: [Ball] = []
     
-    //private var player1 = Player(name: "1", score: 0)
-    //private var player2 = Player(name: "2", score: 0)
-    //private var currentPlayer = Player()
+    private var player1 = Player(name: "1", score: 0)
+    private var player2 = Player(name: "2", score: 0)
+    private var currentPlayer = Player()
     
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     var gameViewController : GameViewController!
     //var gameOverViewController : UIViewController
     
     override func didMove(to view: SKView) {
-//        currentPlayer = player1
+        self.currentPlayer = player1
         self.physicsWorld.contactDelegate = self
         self.screenSize = viewSizeInLocalCoordinates()
         self.view?.isPaused = false
@@ -56,10 +56,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         setupPocketNodes()
         setupBallNodes()
-        
-        //
-        
-
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -93,11 +89,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func swapPlayers() {
-//        if self.currentPlayer.isEqual(self.player1) {
-//            self.currentPlayer = self.player2
-//        } else {
-//            self.currentPlayer = self.player1
-//        }
+        print(currentPlayer.name)
+        if self.currentPlayer === self.player1 {
+            self.currentPlayer = self.player2
+        } else {
+            self.currentPlayer = self.player1
+        }
     }
     
     func viewSizeInLocalCoordinates() -> CGSize {
