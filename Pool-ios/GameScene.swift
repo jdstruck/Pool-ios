@@ -29,16 +29,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let pocketRadius: CGFloat = 60
     var selectedNodeVelocity = CGVector(dx: 0.0, dy: 0.0)
     var selectedNodeTouchesMovedCount = 0
-    let linearDamping = CGFloat(0.8)
+    let linearDamping = CGFloat( 0.8)
     var poolBallArray: [Ball] = []
     
-    private var player1 = Player(name: "1", score: 0)
-    private var player2 = Player(name: "2", score: 0)
+    private var player1 = Player(name: "foo", score: 0)
+    private var player2 = Player(name: "bar", score: 0)
     private var currentPlayer = Player()
-    
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    var gameViewController : GameViewController!
+    //var gameOverViewController : UIViewController
     
     override func didMove(to view: SKView) {
-        currentPlayer = player1
+        GameManager.players[0] = player1
+        GameManager.players[1] = player2
+        GameManager.currentPlayer = player1
+        //self.currentPlayer = player1
         self.physicsWorld.contactDelegate = self
         self.screenSize = viewSizeInLocalCoordinates()
         self.view?.isPaused = false
@@ -53,13 +58,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         setupPocketNodes()
         setupBallNodes()
-
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-        let bodyA = contact.bodyA.node
+//        let bodyA = contact.bodyA.node
         let bodyB = contact.bodyB.node
-        let bodyBVelocity = bodyB!.physicsBody!.velocity
+//        let bodyBVelocity = bodyB!.physicsBody!.velocity
         bodyB!.physicsBody!.isDynamic = false
         
         // Remove ball upon contact with pocket
@@ -70,7 +74,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // If cue ball, regenerate cue ball
         if (bodyB!.name == "0") {
             generateCueBall()
-            swapPlayers()
+            GameManager.gameInstance.swapPlayers()
         }
         
         // If 8-ball, reset game
@@ -82,16 +86,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             cueBall?.removeFromParent()
             setupBallNodes()
+            self.gameViewController.gameOver()
+            GameManager.gameInstance.gameOver()
         }
     }
     
-    func swapPlayers() {
-//        if self.currentPlayer.isEqual(self.player1) {
-//            self.currentPlayer = self.player2
+//    func swapPlayers() {
+//        print(GameManager.currentPlayer.name)
+//        if GameManager.currentPlayer === GameManager.players[0] {
+//            GameManager.currentPlayer = GameManager.players[1]
 //        } else {
-//            self.currentPlayer = self.player1
+//            GameManager.currentPlayer = GameManager.players[0]
 //        }
-    }
+//    }
     
     func viewSizeInLocalCoordinates() -> CGSize {
         let reference = CGPoint(x: view!.bounds.maxX, y: view!.bounds.maxY)

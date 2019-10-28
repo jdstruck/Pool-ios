@@ -12,6 +12,7 @@ import GameplayKit
 
 class GameViewController: UIViewController {
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if let view = self.view as! SKView? {
@@ -20,10 +21,14 @@ class GameViewController: UIViewController {
             if let scene = SKScene(fileNamed: "GameScene") {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
-                
+                let gameScene : GameScene! = scene as? GameScene
+                gameScene!.gameViewController = self
                 // Present the scene
                 view.presentScene(scene)
             }
+            
+            
+            //scene.gameViewController = self
             
             view.ignoresSiblingOrder = true
             
@@ -46,5 +51,16 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    func gameOver() {
+        print("game over")
+        let gameOverViewController = storyboard!.instantiateViewController(withIdentifier: "game_over")
+        self.navigationController?.pushViewController(gameOverViewController, animated: true)
+        self.performSegue(withIdentifier: "game_over_segue", sender:self)
+    }
+
+    @IBAction func unwindToViewController(segue: UIStoryboardSegue) {
+        print("hello")
     }
 }

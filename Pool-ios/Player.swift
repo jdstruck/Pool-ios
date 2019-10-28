@@ -9,7 +9,7 @@
 import Foundation
 
 class Player {
-    private let name : String
+    let name : String
     var _score : Int
     var score : Int {
         get {return self._score}
