@@ -10,20 +10,25 @@ For this implementation, my goals were as follows:
 - [x] Game reset at end of game (i.e. no colored balls
   remaining, or 8-ball in pocket)
 - [x] Pockets work reasonably well
+- [x] Alternate views (start screen, "better luck next time"/"great job")
 
 ### Future
 - [ ] Visible numbers/stripes
 - [ ] Cue
-- [ ] Alternate views (start screen, "better luck next time"/"great job")
 - [ ] Running score
 - [ ] Correct (or better, configurable) ball order
 - [ ] Bumpers
+- [ ] Basic AI opponent
 
 This was really fun to make, and while the game works basically as advertised, there are a number of future additions I would like to continue to work on to make this a more polished game.
 
 ## Daily Log
 
 Note: this app started off as an Asteroids knock-off, so early commits reference polygons, asteroids, etc.
+
+* Oct 27
+  * Button back to start screen from game over screen
+  * Leaderboard table
 
 * Oct 25
   * Add players, begin work on scoring
